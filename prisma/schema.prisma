@@ -1,0 +1,2577 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  BLOCKED
+  PENDING
+
+  @@map("user_status")
+}
+
+enum OrganizationStatus {
+  TRIAL
+  ACTIVE
+  GRACE_PERIOD
+  SUSPENDED
+  CLOSED
+
+  @@map("organization_status")
+}
+
+enum BranchStatus {
+  ACTIVE
+  INACTIVE
+
+  @@map("branch_status")
+}
+
+enum MembershipStatus {
+  INVITED
+  ACTIVE
+  SUSPENDED
+  LEFT
+
+  @@map("membership_status")
+}
+
+enum PermissionScope {
+  OWN
+  BRANCH
+  ORGANIZATION
+  PLATFORM
+
+  @@map("permission_scope")
+}
+
+enum RoomStatus {
+  ACTIVE
+  MAINTENANCE
+  INACTIVE
+
+  @@map("room_status")
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  ON_LEAVE
+  TERMINATED
+
+  @@map("employee_status")
+}
+
+enum SalarySchemeStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+
+  @@map("salary_scheme_status")
+}
+
+enum SalaryRuleType {
+  FIXED
+  PER_LESSON
+  PER_HOUR
+  PER_STUDENT
+  REVENUE_PERCENTAGE
+  BONUS
+  PENALTY
+  CUSTOM_FORMULA
+
+  @@map("salary_rule_type")
+}
+
+enum PayrollPeriodStatus {
+  OPEN
+  CALCULATING
+  CALCULATED
+  APPROVED
+  PAID
+  LOCKED
+
+  @@map("payroll_period_status")
+}
+
+enum PayrollItemStatus {
+  DRAFT
+  APPROVED
+  PAID
+  CANCELLED
+
+  @@map("payroll_item_status")
+}
+
+enum LeadStageType {
+  OPEN
+  WON
+  LOST
+
+  @@map("lead_stage_type")
+}
+
+enum LeadActivityType {
+  CALL
+  MESSAGE
+  MEETING
+  NOTE
+  TASK
+  TRIAL_LESSON
+  STATUS_CHANGE
+
+  @@map("lead_activity_type")
+}
+
+enum LeadTaskStatus {
+  PENDING
+  DONE
+  CANCELLED
+
+  @@map("lead_task_status")
+}
+
+enum TrialLessonStatus {
+  SCHEDULED
+  ATTENDED
+  MISSED
+  CANCELLED
+
+  @@map("trial_lesson_status")
+}
+
+enum StudentStatus {
+  ACTIVE
+  FROZEN
+  GRADUATED
+  DROPPED
+  ARCHIVED
+
+  @@map("student_status")
+}
+
+enum GenderType {
+  MALE
+  FEMALE
+
+  @@map("gender_type")
+}
+
+enum ParentRelationType {
+  MOTHER
+  FATHER
+  GUARDIAN
+  OTHER
+
+  @@map("parent_relation_type")
+}
+
+enum CourseStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+
+  @@map("course_status")
+}
+
+enum CourseVersionStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+
+  @@map("course_version_status")
+}
+
+enum MaterialType {
+  TEXT
+  VIDEO
+  FILE
+  LINK
+  CODE
+
+  @@map("material_type")
+}
+
+enum GroupStatus {
+  PLANNED
+  ACTIVE
+  FINISHED
+  FROZEN
+  CANCELLED
+
+  @@map("group_status")
+}
+
+enum GroupTeacherRole {
+  MAIN
+  ASSISTANT
+  SUBSTITUTE
+
+  @@map("group_teacher_role")
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  FROZEN
+  TRANSFERRED
+  COMPLETED
+  CANCELLED
+
+  @@map("enrollment_status")
+}
+
+enum LessonSessionStatus {
+  PLANNED
+  COMPLETED
+  CANCELLED
+  RESCHEDULED
+
+  @@map("lesson_session_status")
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+
+  @@map("attendance_status")
+}
+
+enum SubmissionStatus {
+  DRAFT
+  SUBMITTED
+  LATE
+  REVIEWED
+  RETURNED
+
+  @@map("submission_status")
+}
+
+enum InvoiceLifecycleStatus {
+  DRAFT
+  ISSUED
+  VOID
+
+  @@map("invoice_lifecycle_status")
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  BANK_TRANSFER
+  ONLINE
+
+  @@map("payment_method")
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+
+  @@map("payment_status")
+}
+
+enum PaymentIntentStatus {
+  CREATED
+  PENDING
+  PAID
+  FAILED
+  EXPIRED
+  CANCELLED
+
+  @@map("payment_intent_status")
+}
+
+enum WebhookStatus {
+  RECEIVED
+  PROCESSED
+  FAILED
+  IGNORED
+
+  @@map("webhook_status")
+}
+
+enum RefundStatus {
+  REQUESTED
+  APPROVED
+  REJECTED
+  COMPLETED
+
+  @@map("refund_status")
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED_AMOUNT
+
+  @@map("discount_type")
+}
+
+enum LedgerDirection {
+  DEBIT
+  CREDIT
+
+  @@map("ledger_direction")
+}
+
+enum LedgerEntryType {
+  INVOICE_ISSUED
+  INVOICE_VOIDED
+  PAYMENT_RECEIVED
+  PAYMENT_ALLOCATED
+  DISCOUNT_APPLIED
+  REFUND
+  ADJUSTMENT
+  REVERSAL
+
+  @@map("ledger_entry_type")
+}
+
+enum AccountStatus {
+  ACTIVE
+  CLOSED
+
+  @@map("account_status")
+}
+
+enum CashboxType {
+  CASH
+  BANK
+  CARD
+  ONLINE
+
+  @@map("cashbox_type")
+}
+
+enum CashboxStatus {
+  ACTIVE
+  ARCHIVED
+
+  @@map("cashbox_status")
+}
+
+enum FinanceCategoryType {
+  INCOME
+  EXPENSE
+
+  @@map("finance_category_type")
+}
+
+enum FinancialPeriodStatus {
+  OPEN
+  CLOSED
+
+  @@map("financial_period_status")
+}
+
+enum PlanStatus {
+  ACTIVE
+  ARCHIVED
+
+  @@map("plan_status")
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  GRACE_PERIOD
+  SUSPENDED
+  CANCELLED
+
+  @@map("subscription_status")
+}
+
+enum WalletStatus {
+  ACTIVE
+  FROZEN
+
+  @@map("wallet_status")
+}
+
+enum WalletTransactionType {
+  TOP_UP
+  SUBSCRIPTION_CHARGE
+  REFUND
+  BONUS
+  ADJUSTMENT
+
+  @@map("wallet_transaction_type")
+}
+
+enum SubscriptionChargeStatus {
+  PENDING
+  CHARGED
+  FAILED
+  WAIVED
+
+  @@map("subscription_charge_status")
+}
+
+enum NotificationChannel {
+  SMS
+  TELEGRAM
+  EMAIL
+  IN_APP
+  PUSH
+
+  @@map("notification_channel")
+}
+
+enum DeliveryStatus {
+  PENDING
+  SENT
+  DELIVERED
+  FAILED
+  READ
+
+  @@map("delivery_status")
+}
+
+enum ProviderAccountStatus {
+  ACTIVE
+  INACTIVE
+  ERROR
+
+  @@map("provider_account_status")
+}
+
+enum ReportJobStatus {
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+  EXPIRED
+
+  @@map("report_job_status")
+}
+
+/// email/phone GLOBAL unique — bu platform darajasidagi identity. Tenant ichidagi telefon unikalligi students/parents/employees jadvallarida alohida.
+model User {
+  id                 String     @id @default(uuid()) @db.Uuid
+  email              String?    @unique @db.VarChar
+  phone              String?    @unique @db.VarChar
+  passwordHash       String     @map("password_hash")
+  status             UserStatus @default(PENDING)
+  mfaEnabled         Boolean    @default(false) @map("mfa_enabled")
+  mfaSecretEncrypted String?    @map("mfa_secret_encrypted")
+  mfaEnrolledAt      DateTime?  @map("mfa_enrolled_at") @db.Timestamptz
+  emailVerifiedAt    DateTime?  @map("email_verified_at") @db.Timestamptz
+  phoneVerifiedAt    DateTime?  @map("phone_verified_at") @db.Timestamptz
+  lastLoginAt        DateTime?  @map("last_login_at") @db.Timestamptz
+  createdAt          DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt          DateTime   @default(now()) @map("updated_at") @db.Timestamptz
+
+  userMfaRecoveryCodes       UserMfaRecoveryCode[]
+  userSessions               UserSession[]
+  platformUserRolesUser      PlatformUserRole[]          @relation("platform_user_roles_user")
+  platformUserRolesGrantedBy PlatformUserRole[]          @relation("platform_user_roles_granted_by")
+  organizationMemberships    OrganizationMembership[]
+  membershipRoleAssignments  MembershipRoleAssignment[]
+  files                      File[]
+  employees                  Employee[]
+  payrollPeriods             PayrollPeriod[]
+  leadActivities             LeadActivity[]
+  leadTasks                  LeadTask[]
+  students                   Student[]
+  studentStatusHistory       StudentStatusHistory[]
+  parents                    Parent[]
+  studentGroupTransfers      StudentGroupTransfer[]
+  lessonSessions             LessonSession[]
+  attendances                Attendance[]
+  assignments                Assignment[]
+  assignmentSubmissions      AssignmentSubmission[]
+  studentLedgerEntries       StudentLedgerEntry[]
+  invoices                   Invoice[]
+  payments                   Payment[]
+  refunds                    Refund[]
+  discountAssignments        DiscountAssignment[]
+  otherIncomes               OtherIncome[]
+  expenses                   Expense[]
+  cashboxTransfers           CashboxTransfer[]
+  financialPeriods           FinancialPeriod[]
+  subscriptionPlanChanges    SubscriptionPlanChange[]
+  platformWalletTransactions PlatformWalletTransaction[]
+  notifications              Notification[]
+  telegramUserLinks          TelegramUserLink[]
+  reportJobs                 ReportJob[]
+  auditLogs                  AuditLog[]
+
+  @@map("users")
+}
+
+model UserMfaRecoveryCode {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  codeHash  String    @map("code_hash")
+  usedAt    DateTime? @map("used_at") @db.Timestamptz
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, codeHash])
+  @@map("user_mfa_recovery_codes")
+}
+
+model UserSession {
+  id               String    @id @default(uuid()) @db.Uuid
+  userId           String    @map("user_id") @db.Uuid
+  refreshTokenHash String    @unique @map("refresh_token_hash")
+  deviceName       String?   @map("device_name") @db.VarChar
+  ipAddress        String?   @map("ip_address") @db.VarChar
+  userAgent        String?   @map("user_agent")
+  expiresAt        DateTime  @map("expires_at") @db.Timestamptz
+  revokedAt        DateTime? @map("revoked_at") @db.Timestamptz
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, expiresAt])
+  @@map("user_sessions")
+}
+
+model PlatformUserRole {
+  userId    String   @map("user_id") @db.Uuid
+  roleCode  String   @map("role_code") @db.VarChar
+  grantedBy String?  @map("granted_by") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  user          User  @relation("platform_user_roles_user", fields: [userId], references: [id])
+  grantedByUser User? @relation("platform_user_roles_granted_by", fields: [grantedBy], references: [id])
+
+  @@id([userId, roleCode])
+  @@map("platform_user_roles")
+}
+
+/// V2.0 + : organizations/cashboxes/plans/salary_schemes valyutalari farq qilishi mumkin. Konvertatsiya kursi shu yerdan olinadi va tranzaksiya paytida snapshot qilinadi.
+model ExchangeRate {
+  id            String   @id @default(uuid()) @db.Uuid
+  baseCurrency  String   @map("base_currency") @db.VarChar(3)
+  quoteCurrency String   @map("quote_currency") @db.VarChar(3)
+  rate          Decimal  @db.Decimal(18, 8)
+  validFrom     DateTime @map("valid_from") @db.Date
+  source        String?  @db.VarChar
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@unique([baseCurrency, quoteCurrency, validFrom])
+  @@map("exchange_rates")
+}
+
+model Organization {
+  id         String             @id @default(uuid()) @db.Uuid
+  name       String             @db.VarChar
+  slug       String             @unique @db.VarChar
+  logoFileId String?            @map("logo_file_id") @db.Uuid
+  status     OrganizationStatus @default(TRIAL)
+  timezone   String             @default("Asia/Tashkent") @db.VarChar
+  currency   String             @default("UZS") @db.VarChar(3)
+  language   String             @default("uz") @db.VarChar(5)
+  createdAt  DateTime           @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime           @default(now()) @map("updated_at") @db.Timestamptz
+
+  logoFile File? @relation("organizations_logo_file", fields: [logoFileId], references: [id])
+
+  organizationSetting           OrganizationSetting?
+  branches                      Branch[]
+  organizationMemberships       OrganizationMembership[]
+  roles                         Role[]
+  filesOrganization             File[]                         @relation("files_organization")
+  employees                     Employee[]
+  salarySchemes                 SalaryScheme[]
+  payrollPeriods                PayrollPeriod[]
+  leadSources                   LeadSource[]
+  leadPipelines                 LeadPipeline[]
+  leadLostReasons               LeadLostReason[]
+  leads                         Lead[]
+  students                      Student[]
+  parents                       Parent[]
+  courseCategories              CourseCategory[]
+  courses                       Course[]
+  holidays                      Holiday[]
+  discounts                     Discount[]
+  paymentProviderAccounts       PaymentProviderAccount[]
+  cashboxes                     Cashbox[]
+  financeCategories             FinanceCategory[]
+  financialPeriods              FinancialPeriod[]
+  subscription                  Subscription?
+  subscriptionPlanChanges       SubscriptionPlanChange[]
+  platformWallet                PlatformWallet?
+  platformWalletTransactions    PlatformWalletTransaction[]
+  subscriptionCharges           SubscriptionCharge[]
+  platformPayments              PlatformPayment[]
+  communicationProviderAccounts CommunicationProviderAccount[]
+  notificationTemplates         NotificationTemplate[]
+  notifications                 Notification[]
+  reportJobs                    ReportJob[]
+  outboxEvents                  OutboxEvent[]
+  idempotencyKeys               IdempotencyKey[]
+  auditLogs                     AuditLog[]
+
+  @@map("organizations")
+}
+
+/// V2.0 + TZ 1.5 "settings, branding". 1:1 organizations bilan.
+model OrganizationSetting {
+  organizationId String   @id @default(uuid()) @map("organization_id") @db.Uuid
+  primaryColor   String?  @map("primary_color") @db.VarChar(7)
+  supportEmail   String?  @map("support_email") @db.VarChar
+  supportPhone   String?  @map("support_phone") @db.VarChar
+  invoicePrefix  String?  @map("invoice_prefix") @db.VarChar
+  settings       Json     @default(dbgenerated("'{}'")) @db.JsonB
+  updatedAt      DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@map("organization_settings")
+}
+
+model Branch {
+  id             String       @id @default(uuid()) @db.Uuid
+  organizationId String       @map("organization_id") @db.Uuid
+  name           String       @db.VarChar
+  address        String?
+  phone          String?      @db.VarChar
+  timezone       String?      @db.VarChar
+  status         BranchStatus @default(ACTIVE)
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime     @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  membershipRoleAssignments MembershipRoleAssignment[]
+  rooms                     Room[]
+  employeeBranchAssignments EmployeeBranchAssignment[]
+  leads                     Lead[]
+  trialLessons              TrialLesson[]
+  groups                    Group[]
+  holidays                  Holiday[]
+  payments                  Payment[]
+  cashboxBranchScopes       CashboxBranchScope[]
+  otherIncomes              OtherIncome[]
+  expenses                  Expense[]
+  auditLogs                 AuditLog[]
+
+  @@unique([organizationId, name])
+  @@unique([organizationId, id], map: "branches_tenant_uq")
+  @@index([organizationId, status])
+  @@map("branches")
+}
+
+model OrganizationMembership {
+  id             String           @id @default(uuid()) @db.Uuid
+  organizationId String           @map("organization_id") @db.Uuid
+  userId         String           @map("user_id") @db.Uuid
+  status         MembershipStatus @default(INVITED)
+  joinedAt       DateTime         @map("joined_at") @db.Timestamptz
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime         @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  user         User         @relation(fields: [userId], references: [id])
+
+  membershipRoleAssignments MembershipRoleAssignment[]
+  notificationPreferences   NotificationPreference[]
+
+  @@unique([organizationId, userId])
+  @@unique([organizationId, id], map: "memberships_tenant_uq")
+  @@index([userId, status])
+  @@map("organization_memberships")
+}
+
+/// V2.0: (organization_id, code) uchun partial unique index qo'shildi — SQL ilovaga qarang. v1.0 da code ustunida hech qanday constraint yo'q edi.
+model Role {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  name           String   @db.VarChar
+  code           String?  @db.VarChar
+  isSystem       Boolean  @default(false) @map("is_system")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  rolePermissions           RolePermission[]
+  membershipRoleAssignments MembershipRoleAssignment[]
+
+  @@unique([organizationId, name])
+  @@unique([organizationId, id], map: "roles_tenant_uq")
+  @@map("roles")
+}
+
+model RolePermission {
+  organizationId String          @map("organization_id") @db.Uuid
+  roleId         String          @map("role_id") @db.Uuid
+  permissionCode String          @map("permission_code") @db.VarChar
+  scope          PermissionScope
+  createdAt      DateTime        @default(now()) @map("created_at") @db.Timestamptz
+
+  role Role @relation(fields: [organizationId, roleId], references: [organizationId, id])
+
+  @@id([roleId, permissionCode])
+  @@index([organizationId, roleId])
+  @@map("role_permissions")
+}
+
+/// 5NF: irreducible ternary grant fact (membership, role, branch-scope). Bir foydalanuvchi F1 da BRANCH_MANAGER, F2 da TEACHER bo'lishi mumkin — kombinatsiyalar mustaqil emas, shuning uchun ajratilmaydi (4NF tekshiruvidan o'tgan). V2.0: organization_id qo'shildi va membership/role/branch uchtasi ham co
+model MembershipRoleAssignment {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  membershipId   String   @map("membership_id") @db.Uuid
+  roleId         String   @map("role_id") @db.Uuid
+  branchId       String?  @map("branch_id") @db.Uuid
+  grantedBy      String?  @map("granted_by") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  membership    OrganizationMembership @relation(fields: [organizationId, membershipId], references: [organizationId, id])
+  role          Role                   @relation(fields: [organizationId, roleId], references: [organizationId, id])
+  branch        Branch?                @relation(fields: [organizationId, branchId], references: [organizationId, id])
+  grantedByUser User?                  @relation(fields: [grantedBy], references: [id])
+
+  @@index([organizationId, membershipId])
+  @@index([organizationId, roleId])
+  @@map("membership_role_assignments")
+}
+
+model Room {
+  id             String     @id @default(uuid()) @db.Uuid
+  organizationId String     @map("organization_id") @db.Uuid
+  branchId       String     @map("branch_id") @db.Uuid
+  name           String     @db.VarChar
+  capacity       Int?
+  status         RoomStatus @default(ACTIVE)
+  createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime   @default(now()) @map("updated_at") @db.Timestamptz
+
+  branch Branch @relation(fields: [organizationId, branchId], references: [organizationId, id])
+
+  schedules      Schedule[]
+  lessonSessions LessonSession[]
+
+  @@unique([branchId, name])
+  @@unique([organizationId, id], map: "rooms_tenant_uq")
+  @@map("rooms")
+}
+
+/// Plan storage limiti SUM(size_bytes) WHERE deleted_at IS NULL orqali hisoblanadi.
+model File {
+  id             String    @id @default(uuid()) @db.Uuid
+  organizationId String?   @map("organization_id") @db.Uuid
+  storageKey     String    @unique @map("storage_key") @db.VarChar
+  name           String    @db.VarChar
+  mimeType       String    @map("mime_type") @db.VarChar
+  sizeBytes      BigInt    @map("size_bytes")
+  uploadedBy     String?   @map("uploaded_by") @db.Uuid
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  deletedAt      DateTime? @map("deleted_at") @db.Timestamptz
+
+  organization   Organization? @relation("files_organization", fields: [organizationId], references: [id])
+  uploadedByUser User?         @relation(fields: [uploadedBy], references: [id])
+
+  organizationsLogoFile Organization[]   @relation("organizations_logo_file")
+  courseMaterials       CourseMaterial[]
+  certificates          Certificate[]
+  assignmentFiles       AssignmentFile[]
+  submissionFiles       SubmissionFile[]
+  reportJobs            ReportJob[]
+
+  @@unique([organizationId, id], map: "files_tenant_uq")
+  @@index([organizationId, createdAt])
+  @@map("files")
+}
+
+model Employee {
+  id             String         @id @default(uuid()) @db.Uuid
+  organizationId String         @map("organization_id") @db.Uuid
+  userId         String?        @map("user_id") @db.Uuid
+  fullName       String         @map("full_name") @db.VarChar
+  phone          String?        @db.VarChar
+  email          String?        @db.VarChar
+  position       String?        @db.VarChar
+  status         EmployeeStatus @default(ACTIVE)
+  hireDate       DateTime?      @map("hire_date") @db.Date
+  terminatedAt   DateTime?      @map("terminated_at") @db.Date
+  createdAt      DateTime       @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime       @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  user         User?        @relation(fields: [userId], references: [id])
+
+  employeeBranchAssignments EmployeeBranchAssignment[]
+  employeeSalaryAssignments EmployeeSalaryAssignment[]
+  payrollItems              PayrollItem[]
+  leads                     Lead[]
+  groupTeachers             GroupTeacher[]
+
+  @@unique([organizationId, phone], map: "employees_org_phone_uq")
+  @@unique([organizationId, id], map: "employees_tenant_uq")
+  @@index([organizationId, status])
+  @@map("employees")
+}
+
+/// V2.0: unique constraint qo'shildi (v1.0 da yo'q edi — bitta xodimni bitta filialga cheksiz marta biriktirish mumkin edi). is_primary uchun partial unique — SQL ilovaga qarang.
+model EmployeeBranchAssignment {
+  id             String    @id @default(uuid()) @db.Uuid
+  organizationId String    @map("organization_id") @db.Uuid
+  employeeId     String    @map("employee_id") @db.Uuid
+  branchId       String    @map("branch_id") @db.Uuid
+  isPrimary      Boolean   @default(false) @map("is_primary")
+  startsAt       DateTime? @map("starts_at") @db.Date
+  endsAt         DateTime? @map("ends_at") @db.Date
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  employee Employee @relation(fields: [organizationId, employeeId], references: [organizationId, id])
+  branch   Branch   @relation(fields: [organizationId, branchId], references: [organizationId, id])
+
+  @@unique([employeeId, branchId, startsAt])
+  @@index([organizationId, branchId])
+  @@map("employee_branch_assignments")
+}
+
+model SalaryScheme {
+  id             String             @id @default(uuid()) @db.Uuid
+  organizationId String             @map("organization_id") @db.Uuid
+  name           String             @db.VarChar
+  status         SalarySchemeStatus @default(DRAFT)
+  currency       String             @db.VarChar(3)
+  createdAt      DateTime           @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime           @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  salaryRules               SalaryRule[]
+  employeeSalaryAssignments EmployeeSalaryAssignment[]
+
+  @@unique([organizationId, name])
+  @@unique([organizationId, id], map: "salary_schemes_tenant_uq")
+  @@map("salary_schemes")
+}
+
+/// V2.0 + TZ 1.11: `type` ustuni qo'shildi. v1.0 da faqat `expression` bor edi, ya'ni 8 ta rule turining hammasi DSL'ga aylanardi va UI typed rule builder chizolmasdi. CHECK: type ga qarab qaysi ustun majburiy — SQL ilovaga qarang.
+model SalaryRule {
+  id             String         @id @default(uuid()) @db.Uuid
+  organizationId String         @map("organization_id") @db.Uuid
+  schemeId       String         @map("scheme_id") @db.Uuid
+  name           String         @db.VarChar
+  type           SalaryRuleType
+  priority       Int
+  baseAmount     Decimal?       @map("base_amount") @db.Decimal(18, 2)
+  percentage     Decimal?       @db.Decimal(9, 4)
+  expression     String?
+  createdAt      DateTime       @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime       @default(now()) @map("updated_at") @db.Timestamptz
+
+  scheme SalaryScheme @relation(fields: [organizationId, schemeId], references: [organizationId, id])
+
+  employeeSalaryRuleOverrides EmployeeSalaryRuleOverride[]
+  payrollItemComponents       PayrollItemComponent[]
+
+  @@unique([schemeId, priority])
+  @@unique([organizationId, schemeId, id], map: "salary_rules_scheme_uq")
+  @@map("salary_rules")
+}
+
+/// Bir xodimda bir vaqtda bitta aktiv sxema — overlap taqiqi SQL ilovada (EXCLUDE gist).
+model EmployeeSalaryAssignment {
+  id             String    @id @default(uuid()) @db.Uuid
+  organizationId String    @map("organization_id") @db.Uuid
+  employeeId     String    @map("employee_id") @db.Uuid
+  schemeId       String    @map("scheme_id") @db.Uuid
+  effectiveFrom  DateTime  @map("effective_from") @db.Date
+  effectiveTo    DateTime? @map("effective_to") @db.Date
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  employee Employee     @relation(fields: [organizationId, employeeId], references: [organizationId, id])
+  scheme   SalaryScheme @relation(fields: [organizationId, schemeId], references: [organizationId, id])
+
+  employeeSalaryRuleOverrides EmployeeSalaryRuleOverride[]
+
+  @@unique([employeeId, effectiveFrom])
+  @@unique([organizationId, schemeId, id], map: "esa_scheme_uq")
+  @@map("employee_salary_assignments")
+}
+
+/// V2.0: v1.0 dagi "salary_rule_id must belong to the same salary scheme" izohi endi TRIGGER emas, composite FK bilan majburlanadi (Ref bloklariga qarang).
+model EmployeeSalaryRuleOverride {
+  organizationId String   @map("organization_id") @db.Uuid
+  schemeId       String   @map("scheme_id") @db.Uuid
+  assignmentId   String   @map("assignment_id") @db.Uuid
+  salaryRuleId   String   @map("salary_rule_id") @db.Uuid
+  baseAmount     Decimal? @map("base_amount") @db.Decimal(18, 2)
+  percentage     Decimal? @db.Decimal(9, 4)
+  expression     String?
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  assignment EmployeeSalaryAssignment @relation(fields: [organizationId, schemeId, assignmentId], references: [organizationId, schemeId, id])
+  salaryRule SalaryRule               @relation(fields: [organizationId, schemeId, salaryRuleId], references: [organizationId, schemeId, id])
+
+  @@id([assignmentId, salaryRuleId])
+  @@map("employee_salary_rule_overrides")
+}
+
+/// V2.0 BCNF tuzatishi: unique kalit (organization_id, period_start, period_end) dan (organization_id, period_start) ga o'zgartirildi, chunki period_start → period_end (oylik davr). Eski kalit bir-biriga kirib ketuvchi davrlarga ruxsat berardi. Overlap taqiqi uchun EXCLUDE gist — SQL ilovaga qarang. V2
+model PayrollPeriod {
+  id             String              @id @default(uuid()) @db.Uuid
+  organizationId String              @map("organization_id") @db.Uuid
+  periodStart    DateTime            @map("period_start") @db.Date
+  periodEnd      DateTime            @map("period_end") @db.Date
+  status         PayrollPeriodStatus @default(OPEN)
+  approvedBy     String?             @map("approved_by") @db.Uuid
+  approvedAt     DateTime?           @map("approved_at") @db.Timestamptz
+  lockedAt       DateTime?           @map("locked_at") @db.Timestamptz
+  createdAt      DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime            @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  approvedByUser User?        @relation(fields: [approvedBy], references: [id])
+
+  payrollItems PayrollItem[]
+
+  @@unique([organizationId, periodStart], map: "payroll_periods_org_start_uq")
+  @@unique([organizationId, id], map: "payroll_periods_tenant_uq")
+  @@index([organizationId, status])
+  @@map("payroll_periods")
+}
+
+model PayrollItem {
+  id              String            @id @default(uuid()) @db.Uuid
+  organizationId  String            @map("organization_id") @db.Uuid
+  payrollPeriodId String            @map("payroll_period_id") @db.Uuid
+  employeeId      String            @map("employee_id") @db.Uuid
+  totalAmount     Decimal           @default(0) @map("total_amount") @db.Decimal(18, 2)
+  status          PayrollItemStatus @default(DRAFT)
+  paidAt          DateTime?         @map("paid_at") @db.Timestamptz
+  createdAt       DateTime          @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime          @default(now()) @map("updated_at") @db.Timestamptz
+
+  payrollPeriod PayrollPeriod @relation(fields: [organizationId, payrollPeriodId], references: [organizationId, id])
+  employee      Employee      @relation(fields: [organizationId, employeeId], references: [organizationId, id])
+
+  payrollItemComponents PayrollItemComponent[]
+
+  @@unique([payrollPeriodId, employeeId])
+  @@unique([organizationId, id], map: "payroll_items_tenant_uq")
+  @@index([organizationId, employeeId, status])
+  @@map("payroll_items")
+}
+
+/// Tarixiy hisob snapshot'i — append-only, o'zgartirilmaydi. V2.0: v1.0 da faqat amount saqlanardi, ya'ni "bu summa qanday chiqdi?" degan savolga javob yo'q edi.
+model PayrollItemComponent {
+  id                 String          @id @default(uuid()) @db.Uuid
+  organizationId     String          @map("organization_id") @db.Uuid
+  payrollItemId      String          @map("payroll_item_id") @db.Uuid
+  salaryRuleId       String?         @map("salary_rule_id") @db.Uuid
+  ruleType           SalaryRuleType? @map("rule_type")
+  expressionSnapshot String?         @map("expression_snapshot")
+  inputSnapshot      Json?           @map("input_snapshot") @db.JsonB
+  label              String          @db.VarChar
+  amount             Decimal         @db.Decimal(18, 2)
+  createdAt          DateTime        @default(now()) @map("created_at") @db.Timestamptz
+
+  payrollItem PayrollItem @relation(fields: [organizationId, payrollItemId], references: [organizationId, id])
+  salaryRule  SalaryRule? @relation(fields: [salaryRuleId], references: [id])
+
+  @@index([organizationId, payrollItemId])
+  @@map("payroll_item_components")
+}
+
+model LeadSource {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  name           String   @db.VarChar
+  code           String?  @db.VarChar
+  isActive       Boolean  @default(true) @map("is_active")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  leads Lead[]
+
+  @@unique([organizationId, name])
+  @@unique([organizationId, id], map: "lead_sources_tenant_uq")
+  @@map("lead_sources")
+}
+
+/// Bitta org uchun bitta default pipeline — partial unique index SQL ilovada.
+model LeadPipeline {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  name           String   @db.VarChar
+  isDefault      Boolean  @default(false) @map("is_default")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  leadStages LeadStage[]
+  leads      Lead[]
+
+  @@unique([organizationId, name])
+  @@unique([organizationId, id], map: "lead_pipelines_tenant_uq")
+  @@map("lead_pipelines")
+}
+
+/// V2.0: (pipeline_id, name) unique qo'shildi — v1.0 da bir pipeline'da bir xil nomli ikkita bosqich bo'lishi mumkin edi.
+model LeadStage {
+  id             String        @id @default(uuid()) @db.Uuid
+  organizationId String        @map("organization_id") @db.Uuid
+  pipelineId     String        @map("pipeline_id") @db.Uuid
+  name           String        @db.VarChar
+  position       Int
+  type           LeadStageType
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime      @default(now()) @map("updated_at") @db.Timestamptz
+
+  pipeline LeadPipeline @relation(fields: [organizationId, pipelineId], references: [organizationId, id])
+
+  leads Lead[]
+
+  @@unique([pipelineId, position])
+  @@unique([pipelineId, name], map: "lead_stages_pipeline_name_uq")
+  @@unique([organizationId, id], map: "lead_stages_tenant_uq")
+  @@map("lead_stages")
+}
+
+/// V2.0: unique qo'shildi — lead_sources da bor edi, bu yerda yo'q edi (izchilsizlik).
+model LeadLostReason {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  name           String   @db.VarChar
+  isActive       Boolean  @default(true) @map("is_active")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  leads Lead[]
+
+  @@unique([organizationId, name], map: "lead_lost_reasons_org_name_uq")
+  @@unique([organizationId, id], map: "lead_lost_reasons_tenant_uq")
+  @@map("lead_lost_reasons")
+}
+
+/// Konvertatsiya bog'lanishi FAQAT students.converted_from_lead_id da saqlanadi — leads ustida teskari ko'rsatkich ORTIQCHA bo'lardi (bir fakt ikki joyda). "Bu lead qaysi studentga aylandi?" savoli students_from_lead_uq indeksi orqali javob oladi. V2.0: created_at qo'shildi — v1.0 da yo'q edi, ya'ni TZ
+model Lead {
+  id                 String    @id @default(uuid()) @db.Uuid
+  organizationId     String    @map("organization_id") @db.Uuid
+  branchId           String?   @map("branch_id") @db.Uuid
+  fullName           String    @map("full_name") @db.VarChar
+  phone              String    @db.VarChar
+  email              String?   @db.VarChar
+  sourceId           String?   @map("source_id") @db.Uuid
+  pipelineId         String    @map("pipeline_id") @db.Uuid
+  stageId            String    @map("stage_id") @db.Uuid
+  managerId          String?   @map("manager_id") @db.Uuid
+  interestedCourseId String?   @map("interested_course_id") @db.Uuid
+  lostReasonId       String?   @map("lost_reason_id") @db.Uuid
+  convertedAt        DateTime? @map("converted_at") @db.Timestamptz
+  createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt          DateTime  @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization     Organization    @relation(fields: [organizationId], references: [id])
+  branch           Branch?         @relation(fields: [organizationId, branchId], references: [organizationId, id])
+  source           LeadSource?     @relation(fields: [organizationId, sourceId], references: [organizationId, id])
+  pipeline         LeadPipeline    @relation(fields: [organizationId, pipelineId], references: [organizationId, id])
+  stage            LeadStage       @relation(fields: [organizationId, stageId], references: [organizationId, id])
+  manager          Employee?       @relation(fields: [organizationId, managerId], references: [organizationId, id])
+  interestedCourse Course?         @relation(fields: [organizationId, interestedCourseId], references: [organizationId, id])
+  lostReason       LeadLostReason? @relation(fields: [organizationId, lostReasonId], references: [organizationId, id])
+
+  leadActivities   LeadActivity[]
+  leadTasks        LeadTask[]
+  trialLessons     TrialLesson[]
+  convertedStudent Student?
+
+  @@unique([organizationId, id], map: "leads_tenant_uq")
+  @@index([organizationId, createdAt])
+  @@index([organizationId, stageId])
+  @@index([organizationId, managerId, createdAt])
+  @@index([organizationId, branchId, createdAt])
+  @@index([organizationId, phone])
+  @@index([organizationId, convertedAt])
+  @@map("leads")
+}
+
+model LeadActivity {
+  id             String           @id @default(uuid()) @db.Uuid
+  organizationId String           @map("organization_id") @db.Uuid
+  leadId         String           @map("lead_id") @db.Uuid
+  actorId        String?          @map("actor_id") @db.Uuid
+  type           LeadActivityType
+  content        String?
+  occurredAt     DateTime         @map("occurred_at") @db.Timestamptz
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz
+
+  lead  Lead  @relation(fields: [organizationId, leadId], references: [organizationId, id])
+  actor User? @relation(fields: [actorId], references: [id])
+
+  @@index([organizationId, leadId, occurredAt])
+  @@map("lead_activities")
+}
+
+/// OVERDUE status SAQLANMAYDI — u (status = PENDING AND due_at < now()) dan hosil qilinadi. Derived data saqlamaslik qoidasi.
+model LeadTask {
+  id             String         @id @default(uuid()) @db.Uuid
+  organizationId String         @map("organization_id") @db.Uuid
+  leadId         String         @map("lead_id") @db.Uuid
+  assigneeId     String         @map("assignee_id") @db.Uuid
+  title          String         @db.VarChar
+  dueAt          DateTime       @map("due_at") @db.Timestamptz
+  status         LeadTaskStatus @default(PENDING)
+  completedAt    DateTime?      @map("completed_at") @db.Timestamptz
+  createdAt      DateTime       @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime       @default(now()) @map("updated_at") @db.Timestamptz
+
+  lead     Lead @relation(fields: [organizationId, leadId], references: [organizationId, id])
+  assignee User @relation(fields: [assigneeId], references: [id])
+
+  @@index([organizationId, assigneeId, status, dueAt])
+  @@index([organizationId, leadId])
+  @@map("lead_tasks")
+}
+
+/// V2.0 3NF tuzatishi: v1.0 da group_id ham, branch_id ham bor edi va ular bir-biriga zid bo'lishi mumkin edi (group_id → groups.branch_id tranzitiv bog'liqlik). Endi composite FK (organization_id, branch_id, group_id) → groups(organization_id, branch_id, id) buni imkonsiz qiladi. group_id NULL bo'lgan
+model TrialLesson {
+  id             String            @id @default(uuid()) @db.Uuid
+  organizationId String            @map("organization_id") @db.Uuid
+  leadId         String            @map("lead_id") @db.Uuid
+  branchId       String            @map("branch_id") @db.Uuid
+  groupId        String?           @map("group_id") @db.Uuid
+  scheduledAt    DateTime          @map("scheduled_at") @db.Timestamptz
+  status         TrialLessonStatus @default(SCHEDULED)
+  result         String?
+  createdAt      DateTime          @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime          @default(now()) @map("updated_at") @db.Timestamptz
+
+  lead   Lead   @relation(fields: [organizationId, leadId], references: [organizationId, id])
+  branch Branch @relation(fields: [organizationId, branchId], references: [organizationId, id])
+  group  Group? @relation(fields: [organizationId, branchId, groupId], references: [organizationId, branchId, id])
+
+  @@index([organizationId, scheduledAt])
+  @@index([organizationId, leadId])
+  @@map("trial_lessons")
+}
+
+/// V2.0 ONGLI DENORMALIZATSIYA: current_status qo'shildi. Manba haqiqat baribir student_status_history — current_status shu jadvalga INSERT paytida bir tranzaksiyada yangilanadi. Sabab: v1.0 da har bir student ro'yxati LATERAL JOIN ... WHERE valid_to IS NULL talab qilardi va TZ 3.12 dagi (organization_
+model Student {
+  id                  String        @id @default(uuid()) @db.Uuid
+  organizationId      String        @map("organization_id") @db.Uuid
+  userId              String?       @map("user_id") @db.Uuid
+  convertedFromLeadId String?       @map("converted_from_lead_id") @db.Uuid
+  fullName            String        @map("full_name") @db.VarChar
+  phone               String?       @db.VarChar
+  birthDate           DateTime?     @map("birth_date") @db.Date
+  gender              GenderType?
+  currentStatus       StudentStatus @default(ACTIVE) @map("current_status")
+  joinedAt            DateTime      @map("joined_at") @db.Date
+  createdAt           DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt           DateTime      @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization      Organization @relation(fields: [organizationId], references: [id])
+  user              User?        @relation(fields: [userId], references: [id])
+  convertedFromLead Lead?        @relation(fields: [organizationId, convertedFromLeadId], references: [organizationId, id])
+
+  studentStatusHistory  StudentStatusHistory[]
+  studentParents        StudentParent[]
+  groupEnrollments      GroupEnrollment[]
+  studentGroupTransfers StudentGroupTransfer[]
+  studentAccounts       StudentAccount[]
+  invoices              Invoice[]
+  payments              Payment[]
+  paymentIntents        PaymentIntent[]
+
+  @@unique([organizationId, phone], map: "students_org_phone_uq")
+  @@unique([organizationId, id], map: "students_tenant_uq")
+  @@unique([organizationId, convertedFromLeadId], map: "students_from_lead_uq")
+  @@index([organizationId, currentStatus])
+  @@index([organizationId, createdAt])
+  @@map("students")
+}
+
+/// Append-only temporal tarix. Har bir student uchun aynan bitta joriy satr (valid_to IS NULL) — partial unique index SQL ilovada.
+model StudentStatusHistory {
+  id             String        @id @default(uuid()) @db.Uuid
+  organizationId String        @map("organization_id") @db.Uuid
+  studentId      String        @map("student_id") @db.Uuid
+  status         StudentStatus
+  reason         String?
+  changedBy      String?       @map("changed_by") @db.Uuid
+  validFrom      DateTime      @map("valid_from") @db.Timestamptz
+  validTo        DateTime?     @map("valid_to") @db.Timestamptz
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz
+
+  student       Student @relation(fields: [organizationId, studentId], references: [organizationId, id])
+  changedByUser User?   @relation(fields: [changedBy], references: [id])
+
+  @@unique([studentId, validFrom])
+  @@index([studentId, validTo])
+  @@index([organizationId, status])
+  @@map("student_status_history")
+}
+
+model Parent {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  userId         String?  @map("user_id") @db.Uuid
+  fullName       String   @map("full_name") @db.VarChar
+  phone          String?  @db.VarChar
+  email          String?  @db.VarChar
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  user         User?        @relation(fields: [userId], references: [id])
+
+  studentParents StudentParent[]
+
+  @@unique([organizationId, phone], map: "parents_org_phone_uq")
+  @@unique([organizationId, id], map: "parents_tenant_uq")
+  @@map("parents")
+}
+
+/// TZ 1.7 dagi 4 ta flag to'liq. Har bir student uchun bitta is_primary — partial unique SQL ilovada.
+model StudentParent {
+  organizationId       String             @map("organization_id") @db.Uuid
+  studentId            String             @map("student_id") @db.Uuid
+  parentId             String             @map("parent_id") @db.Uuid
+  relationType         ParentRelationType @map("relation_type")
+  isPrimary            Boolean            @default(false) @map("is_primary")
+  receiveNotifications Boolean            @default(true) @map("receive_notifications")
+  canViewFinance       Boolean            @default(false) @map("can_view_finance")
+  createdAt            DateTime           @default(now()) @map("created_at") @db.Timestamptz
+
+  student Student @relation(fields: [organizationId, studentId], references: [organizationId, id])
+  parent  Parent  @relation(fields: [organizationId, parentId], references: [organizationId, id])
+
+  @@id([studentId, parentId])
+  @@index([organizationId, parentId])
+  @@map("student_parents")
+}
+
+/// V2.0 +: v1.0 da courses.category erkin matn edi, holbuki finance_categories alohida jadval edi (modellashtirish izchilsizligi). Erkin matnda "IT", "it", "I.T." uchta kategoriyaga aylanardi.
+model CourseCategory {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  name           String   @db.VarChar
+  isActive       Boolean  @default(true) @map("is_active")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  courses Course[]
+
+  @@unique([organizationId, name])
+  @@unique([organizationId, id], map: "course_categories_tenant_uq")
+  @@map("course_categories")
+}
+
+model Course {
+  id             String       @id @default(uuid()) @db.Uuid
+  organizationId String       @map("organization_id") @db.Uuid
+  categoryId     String?      @map("category_id") @db.Uuid
+  name           String       @db.VarChar
+  status         CourseStatus @default(DRAFT)
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime     @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization    @relation(fields: [organizationId], references: [id])
+  category     CourseCategory? @relation(fields: [organizationId, categoryId], references: [organizationId, id])
+
+  leads          Lead[]
+  courseVersions CourseVersion[]
+
+  @@unique([organizationId, name])
+  @@unique([organizationId, id], map: "courses_tenant_uq")
+  @@index([organizationId, status])
+  @@map("courses")
+}
+
+/// TZ 1.8: aktiv guruh eski versiya bilan ishlashda davom etadi.
+model CourseVersion {
+  id             String              @id @default(uuid()) @db.Uuid
+  organizationId String              @map("organization_id") @db.Uuid
+  courseId       String              @map("course_id") @db.Uuid
+  version        Int
+  durationWeeks  Int?                @map("duration_weeks")
+  totalLessons   Int?                @map("total_lessons")
+  basePrice      Decimal?            @map("base_price") @db.Decimal(18, 2)
+  currency       String              @db.VarChar(3)
+  status         CourseVersionStatus @default(DRAFT)
+  createdAt      DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime            @default(now()) @map("updated_at") @db.Timestamptz
+
+  course Course @relation(fields: [organizationId, courseId], references: [organizationId, id])
+
+  curriculumModules CurriculumModule[]
+  groups            Group[]
+
+  @@unique([courseId, version])
+  @@unique([organizationId, id], map: "course_versions_tenant_uq")
+  @@map("course_versions")
+}
+
+model CurriculumModule {
+  id              String   @id @default(uuid()) @db.Uuid
+  organizationId  String   @map("organization_id") @db.Uuid
+  courseVersionId String   @map("course_version_id") @db.Uuid
+  title           String   @db.VarChar
+  position        Int
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
+  courseVersion CourseVersion @relation(fields: [organizationId, courseVersionId], references: [organizationId, id])
+
+  curriculumTopics CurriculumTopic[]
+
+  @@unique([courseVersionId, position])
+  @@unique([organizationId, id], map: "curriculum_modules_tenant_uq")
+  @@map("curriculum_modules")
+}
+
+model CurriculumTopic {
+  id               String   @id @default(uuid()) @db.Uuid
+  organizationId   String   @map("organization_id") @db.Uuid
+  moduleId         String   @map("module_id") @db.Uuid
+  title            String   @db.VarChar
+  position         Int
+  estimatedMinutes Int?     @map("estimated_minutes")
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
+  module CurriculumModule @relation(fields: [organizationId, moduleId], references: [organizationId, id])
+
+  courseMaterials CourseMaterial[]
+  lessonSessions  LessonSession[]
+  assignments     Assignment[]
+
+  @@unique([moduleId, position])
+  @@unique([organizationId, id], map: "curriculum_topics_tenant_uq")
+  @@map("curriculum_topics")
+}
+
+/// CHECK: type ga qarab content/file_id/url dan mosini majburiy qilish — SQL ilovaga qarang.
+model CourseMaterial {
+  id             String       @id @default(uuid()) @db.Uuid
+  organizationId String       @map("organization_id") @db.Uuid
+  topicId        String       @map("topic_id") @db.Uuid
+  type           MaterialType
+  title          String       @db.VarChar
+  content        String?
+  fileId         String?      @map("file_id") @db.Uuid
+  url            String?
+  position       Int
+  isPublished    Boolean      @default(false) @map("is_published")
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime     @default(now()) @map("updated_at") @db.Timestamptz
+
+  topic CurriculumTopic @relation(fields: [organizationId, topicId], references: [organizationId, id])
+  file  File?           @relation(fields: [organizationId, fileId], references: [organizationId, id])
+
+  @@unique([topicId, position])
+  @@index([organizationId, topicId])
+  @@map("course_materials")
+}
+
+/// V2.0: (organization_id, branch_id, id) unique — trial_lessons va boshqa branch-scoped bolalar uchun composite FK maqsadi.
+model Group {
+  id              String      @id @default(uuid()) @db.Uuid
+  organizationId  String      @map("organization_id") @db.Uuid
+  branchId        String      @map("branch_id") @db.Uuid
+  courseVersionId String      @map("course_version_id") @db.Uuid
+  name            String      @db.VarChar
+  startDate       DateTime    @map("start_date") @db.Date
+  expectedEndDate DateTime?   @map("expected_end_date") @db.Date
+  maxStudents     Int?        @map("max_students")
+  status          GroupStatus @default(PLANNED)
+  createdAt       DateTime    @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime    @default(now()) @map("updated_at") @db.Timestamptz
+
+  branch        Branch        @relation(fields: [organizationId, branchId], references: [organizationId, id])
+  courseVersion CourseVersion @relation(fields: [organizationId, courseVersionId], references: [organizationId, id])
+
+  trialLessons     TrialLesson[]
+  groupTeachers    GroupTeacher[]
+  groupEnrollments GroupEnrollment[]
+  schedules        Schedule[]
+  lessonSessions   LessonSession[]
+  assignments      Assignment[]
+
+  @@unique([organizationId, branchId, name])
+  @@unique([organizationId, id], map: "groups_tenant_uq")
+  @@unique([organizationId, branchId, id], map: "groups_branch_uq")
+  @@index([organizationId, status])
+  @@index([organizationId, branchId, status])
+  @@map("groups")
+}
+
+/// V2.0: unique qo'shildi — v1.0 da bitta o'qituvchini bir guruhga cheksiz marta biriktirish mumkin edi. Bir guruhda bir vaqtda bitta MAIN — partial unique SQL ilovada.
+model GroupTeacher {
+  id             String           @id @default(uuid()) @db.Uuid
+  organizationId String           @map("organization_id") @db.Uuid
+  groupId        String           @map("group_id") @db.Uuid
+  employeeId     String           @map("employee_id") @db.Uuid
+  role           GroupTeacherRole @default(MAIN)
+  startsAt       DateTime?        @map("starts_at") @db.Date
+  endsAt         DateTime?        @map("ends_at") @db.Date
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz
+
+  group    Group    @relation(fields: [organizationId, groupId], references: [organizationId, id])
+  employee Employee @relation(fields: [organizationId, employeeId], references: [organizationId, id])
+
+  @@unique([groupId, employeeId, role, startsAt], map: "group_teachers_uq")
+  @@index([organizationId, employeeId])
+  @@map("group_teachers")
+}
+
+/// V2.0: (organization_id, group_id, id) unique — attendances va assignment_submissions uchun composite FK maqsadi (guruh mosligini trigger'siz majburlaydi).
+model GroupEnrollment {
+  id             String           @id @default(uuid()) @db.Uuid
+  organizationId String           @map("organization_id") @db.Uuid
+  groupId        String           @map("group_id") @db.Uuid
+  studentId      String           @map("student_id") @db.Uuid
+  joinedAt       DateTime         @map("joined_at") @db.Date
+  leftAt         DateTime?        @map("left_at") @db.Date
+  status         EnrollmentStatus @default(ACTIVE)
+  priceOverride  Decimal?         @map("price_override") @db.Decimal(18, 2)
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime         @default(now()) @map("updated_at") @db.Timestamptz
+
+  group   Group   @relation(fields: [organizationId, groupId], references: [organizationId, id])
+  student Student @relation(fields: [organizationId, studentId], references: [organizationId, id])
+
+  studentGroupTransfersFromEnrollment StudentGroupTransfer[] @relation("student_group_transfers_from_enrollment")
+  studentGroupTransfersToEnrollment   StudentGroupTransfer[] @relation("student_group_transfers_to_enrollment")
+  attendances                         Attendance[]
+  certificates                        Certificate[]
+  assignmentSubmissions               AssignmentSubmission[]
+  studentPaymentPlans                 StudentPaymentPlan[]
+  discountAssignments                 DiscountAssignment[]
+
+  @@unique([groupId, studentId])
+  @@unique([organizationId, id], map: "group_enrollments_tenant_uq")
+  @@unique([organizationId, groupId, id], map: "group_enrollments_group_uq")
+  @@index([organizationId, studentId, status])
+  @@index([organizationId, groupId, status])
+  @@map("group_enrollments")
+}
+
+/// V2.0 + TZ 1.7 "transfer history". v1.0 da guruhdan guruhga o'tish izi yo'q edi — student_status_history faqat freeze/graduation ni qamrab olardi.
+model StudentGroupTransfer {
+  id               String   @id @default(uuid()) @db.Uuid
+  organizationId   String   @map("organization_id") @db.Uuid
+  studentId        String   @map("student_id") @db.Uuid
+  fromEnrollmentId String   @map("from_enrollment_id") @db.Uuid
+  toEnrollmentId   String   @map("to_enrollment_id") @db.Uuid
+  reason           String?
+  transferredAt    DateTime @map("transferred_at") @db.Timestamptz
+  createdBy        String?  @map("created_by") @db.Uuid
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  student        Student         @relation(fields: [organizationId, studentId], references: [organizationId, id])
+  fromEnrollment GroupEnrollment @relation("student_group_transfers_from_enrollment", fields: [organizationId, fromEnrollmentId], references: [organizationId, id])
+  toEnrollment   GroupEnrollment @relation("student_group_transfers_to_enrollment", fields: [organizationId, toEnrollmentId], references: [organizationId, id])
+  createdByUser  User?           @relation(fields: [createdBy], references: [id])
+
+  @@unique([fromEnrollmentId, toEnrollmentId])
+  @@index([organizationId, studentId, transferredAt])
+  @@map("student_group_transfers")
+}
+
+/// V2.0 + TZ 3.11: `lesson.generate` job'i recurring schedule'dan LessonSession yaratadi. Bu jadval bo'lmasa generator bayram kunlariga ham dars yaratadi. branch_id NULL bo'lganda PostgreSQL unique index NULL'larni to'qnashtirmaydi — partial unique variant SQL ilovada.
+model Holiday {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  branchId       String?  @map("branch_id") @db.Uuid
+  name           String   @db.VarChar
+  date           DateTime @db.Date
+  isWorkingDay   Boolean  @default(false) @map("is_working_day")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  branch       Branch?      @relation(fields: [organizationId, branchId], references: [organizationId, id])
+
+  @@unique([organizationId, branchId, date])
+  @@map("holidays")
+}
+
+/// weekday + local time — organization/branch timezone bo'yicha talqin qilinadi. CHECK: start_time < end_time, weekday BETWEEN 1 AND 7 — SQL ilovada.
+model Schedule {
+  id             String    @id @default(uuid()) @db.Uuid
+  organizationId String    @map("organization_id") @db.Uuid
+  groupId        String    @map("group_id") @db.Uuid
+  roomId         String?   @map("room_id") @db.Uuid
+  weekday        Int
+  startTime      DateTime  @map("start_time") @db.Time
+  endTime        DateTime  @map("end_time") @db.Time
+  effectiveFrom  DateTime  @map("effective_from") @db.Date
+  effectiveTo    DateTime? @map("effective_to") @db.Date
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime  @default(now()) @map("updated_at") @db.Timestamptz
+
+  group Group @relation(fields: [organizationId, groupId], references: [organizationId, id])
+  room  Room? @relation(fields: [organizationId, roomId], references: [organizationId, id])
+
+  lessonSessions LessonSession[]
+
+  @@unique([organizationId, id], map: "schedules_tenant_uq")
+  @@index([organizationId, groupId, effectiveFrom])
+  @@index([roomId, weekday])
+  @@map("schedules")
+}
+
+/// Xona va o'qituvchi konflikti (TZ 1.8) EXCLUDE USING gist bilan tekshiriladi — SQL ilovaga qarang. CHECK: starts_at < ends_at.
+model LessonSession {
+  id                       String              @id @default(uuid()) @db.Uuid
+  organizationId           String              @map("organization_id") @db.Uuid
+  groupId                  String              @map("group_id") @db.Uuid
+  scheduleId               String?             @map("schedule_id") @db.Uuid
+  roomId                   String?             @map("room_id") @db.Uuid
+  topicId                  String?             @map("topic_id") @db.Uuid
+  startsAt                 DateTime            @map("starts_at") @db.Timestamptz
+  endsAt                   DateTime            @map("ends_at") @db.Timestamptz
+  status                   LessonSessionStatus @default(PLANNED)
+  rescheduledFromSessionId String?             @map("rescheduled_from_session_id") @db.Uuid
+  cancelReason             String?             @map("cancel_reason")
+  cancelledBy              String?             @map("cancelled_by") @db.Uuid
+  cancelledAt              DateTime?           @map("cancelled_at") @db.Timestamptz
+  createdAt                DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt                DateTime            @default(now()) @map("updated_at") @db.Timestamptz
+
+  group                  Group            @relation(fields: [organizationId, groupId], references: [organizationId, id])
+  schedule               Schedule?        @relation(fields: [organizationId, scheduleId], references: [organizationId, id])
+  room                   Room?            @relation(fields: [organizationId, roomId], references: [organizationId, id])
+  topic                  CurriculumTopic? @relation(fields: [organizationId, topicId], references: [organizationId, id])
+  rescheduledFromSession LessonSession?   @relation("lesson_sessions_rescheduled_from_session", fields: [organizationId, rescheduledFromSessionId], references: [organizationId, id])
+  cancelledByUser        User?            @relation(fields: [cancelledBy], references: [id])
+
+  rescheduledToSession LessonSession[] @relation("lesson_sessions_rescheduled_from_session")
+  attendances          Attendance[]
+
+  @@unique([organizationId, id], map: "lesson_sessions_tenant_uq")
+  @@unique([organizationId, groupId, id], map: "lesson_sessions_group_uq")
+  @@unique([rescheduledFromSessionId], map: "lesson_sessions_reschedule_uq")
+  @@index([organizationId, groupId, startsAt])
+  @@index([organizationId, startsAt])
+  @@index([roomId, startsAt])
+  @@map("lesson_sessions")
+}
+
+/// V2.0: v1.0 dagi "enrollment group must equal lesson session group; enforce with constraint trigger" izohi endi TRIGGER EMAS — group_id ustuni + 2 ta composite FK buni deklarativ majburlaydi.
+model Attendance {
+  id                String           @id @default(uuid()) @db.Uuid
+  organizationId    String           @map("organization_id") @db.Uuid
+  groupId           String           @map("group_id") @db.Uuid
+  lessonSessionId   String           @map("lesson_session_id") @db.Uuid
+  groupEnrollmentId String           @map("group_enrollment_id") @db.Uuid
+  status            AttendanceStatus
+  arrivalTime       DateTime?        @map("arrival_time") @db.Timestamptz
+  comment           String?
+  markedBy          String?          @map("marked_by") @db.Uuid
+  createdAt         DateTime         @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime         @default(now()) @map("updated_at") @db.Timestamptz
+
+  lessonSession   LessonSession   @relation(fields: [organizationId, groupId, lessonSessionId], references: [organizationId, groupId, id])
+  groupEnrollment GroupEnrollment @relation(fields: [organizationId, groupId, groupEnrollmentId], references: [organizationId, groupId, id])
+  markedByUser    User?           @relation(fields: [markedBy], references: [id])
+
+  @@unique([lessonSessionId, groupEnrollmentId])
+  @@index([organizationId, groupEnrollmentId])
+  @@index([organizationId, status, createdAt])
+  @@map("attendances")
+}
+
+/// V2.0 + TZ 2.2: certificate_no GLOBAL unique edi → tenant-aware qilindi. Aks holda A markazi 001-raqamni olsa, B markazi ololmasdi.
+model Certificate {
+  id                String   @id @default(uuid()) @db.Uuid
+  organizationId    String   @map("organization_id") @db.Uuid
+  groupEnrollmentId String   @map("group_enrollment_id") @db.Uuid
+  fileId            String?  @map("file_id") @db.Uuid
+  certificateNo     String   @map("certificate_no") @db.VarChar
+  issuedAt          DateTime @map("issued_at") @db.Date
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  groupEnrollment GroupEnrollment @relation(fields: [organizationId, groupEnrollmentId], references: [organizationId, id])
+  file            File?           @relation(fields: [organizationId, fileId], references: [organizationId, id])
+
+  @@unique([organizationId, certificateNo], map: "certificates_org_no_uq")
+  @@unique([groupEnrollmentId])
+  @@map("certificates")
+}
+
+model Assignment {
+  id             String    @id @default(uuid()) @db.Uuid
+  organizationId String    @map("organization_id") @db.Uuid
+  groupId        String    @map("group_id") @db.Uuid
+  topicId        String?   @map("topic_id") @db.Uuid
+  title          String    @db.VarChar
+  description    String?
+  deadline       DateTime? @db.Timestamptz
+  maxScore       Decimal?  @map("max_score") @db.Decimal(10, 2)
+  publishedAt    DateTime? @map("published_at") @db.Timestamptz
+  createdBy      String    @map("created_by") @db.Uuid
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime  @default(now()) @map("updated_at") @db.Timestamptz
+
+  group         Group            @relation(fields: [organizationId, groupId], references: [organizationId, id])
+  topic         CurriculumTopic? @relation(fields: [organizationId, topicId], references: [organizationId, id])
+  createdByUser User             @relation(fields: [createdBy], references: [id])
+
+  assignmentFiles       AssignmentFile[]
+  assignmentSubmissions AssignmentSubmission[]
+
+  @@unique([organizationId, id], map: "assignments_tenant_uq")
+  @@unique([organizationId, groupId, id], map: "assignments_group_uq")
+  @@index([organizationId, groupId, deadline])
+  @@map("assignments")
+}
+
+model AssignmentFile {
+  organizationId String   @map("organization_id") @db.Uuid
+  assignmentId   String   @map("assignment_id") @db.Uuid
+  fileId         String   @map("file_id") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  assignment Assignment @relation(fields: [organizationId, assignmentId], references: [organizationId, id])
+  file       File       @relation(fields: [organizationId, fileId], references: [organizationId, id])
+
+  @@id([assignmentId, fileId])
+  @@map("assignment_files")
+}
+
+/// V2.0: v1.0 dagi "enrollment group must equal assignment group" trigger izohi composite FK bilan almashtirildi.
+model AssignmentSubmission {
+  id                String           @id @default(uuid()) @db.Uuid
+  organizationId    String           @map("organization_id") @db.Uuid
+  groupId           String           @map("group_id") @db.Uuid
+  assignmentId      String           @map("assignment_id") @db.Uuid
+  groupEnrollmentId String           @map("group_enrollment_id") @db.Uuid
+  text              String?
+  status            SubmissionStatus @default(DRAFT)
+  submittedAt       DateTime?        @map("submitted_at") @db.Timestamptz
+  score             Decimal?         @db.Decimal(10, 2)
+  feedback          String?
+  reviewedBy        String?          @map("reviewed_by") @db.Uuid
+  reviewedAt        DateTime?        @map("reviewed_at") @db.Timestamptz
+  createdAt         DateTime         @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime         @default(now()) @map("updated_at") @db.Timestamptz
+
+  assignment      Assignment      @relation(fields: [organizationId, groupId, assignmentId], references: [organizationId, groupId, id])
+  groupEnrollment GroupEnrollment @relation(fields: [organizationId, groupId, groupEnrollmentId], references: [organizationId, groupId, id])
+  reviewedByUser  User?           @relation(fields: [reviewedBy], references: [id])
+
+  submissionFiles SubmissionFile[]
+
+  @@unique([assignmentId, groupEnrollmentId])
+  @@unique([organizationId, id], map: "submissions_tenant_uq")
+  @@index([organizationId, status, submittedAt])
+  @@map("assignment_submissions")
+}
+
+model SubmissionFile {
+  organizationId String   @map("organization_id") @db.Uuid
+  submissionId   String   @map("submission_id") @db.Uuid
+  fileId         String   @map("file_id") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  submission AssignmentSubmission @relation(fields: [organizationId, submissionId], references: [organizationId, id])
+  file       File                 @relation(fields: [organizationId, fileId], references: [organizationId, id])
+
+  @@id([submissionId, fileId])
+  @@map("submission_files")
+}
+
+/// V2.0 + TZ 1.9/3.6. Bir student bir nechta valyutada hisobga ega bo'lishi mumkin. Balans SAQLANMAYDI — cache qilinadi; har qanday nomuvofiqlik ledger'dan qayta hisoblanadi (reconciliation job).
+model StudentAccount {
+  id              String        @id @default(uuid()) @db.Uuid
+  organizationId  String        @map("organization_id") @db.Uuid
+  studentId       String        @map("student_id") @db.Uuid
+  currency        String        @db.VarChar(3)
+  status          AccountStatus @default(ACTIVE)
+  balanceCached   Decimal       @default(0) @map("balance_cached") @db.Decimal(18, 2)
+  balanceCachedAt DateTime?     @map("balance_cached_at") @db.Timestamptz
+  createdAt       DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime      @default(now()) @map("updated_at") @db.Timestamptz
+
+  student Student @relation(fields: [organizationId, studentId], references: [organizationId, id])
+
+  studentLedgerEntries StudentLedgerEntry[]
+  invoices             Invoice[]
+  payments             Payment[]
+
+  @@unique([organizationId, studentId, currency])
+  @@unique([organizationId, id], map: "student_accounts_tenant_uq")
+  @@index([organizationId, balanceCached])
+  @@map("student_accounts")
+}
+
+/// APPEND-ONLY. UPDATE va DELETE dastur va DB darajasida taqiqlanadi (TZ 3.5 §7). Balans = SUM(DEBIT) - SUM(CREDIT). Manba hujjat uchun polimorf source_type/source_id EMAS, aniq nullable FK'lar ishlatilgan — FK integriteti saqlanadi.
+model StudentLedgerEntry {
+  id                   String          @id @default(uuid()) @db.Uuid
+  organizationId       String          @map("organization_id") @db.Uuid
+  accountId            String          @map("account_id") @db.Uuid
+  entryType            LedgerEntryType @map("entry_type")
+  direction            LedgerDirection
+  amount               Decimal         @db.Decimal(18, 2)
+  currency             String          @db.VarChar(3)
+  invoiceId            String?         @map("invoice_id") @db.Uuid
+  paymentId            String?         @map("payment_id") @db.Uuid
+  paymentAllocationId  String?         @map("payment_allocation_id") @db.Uuid
+  refundId             String?         @map("refund_id") @db.Uuid
+  discountAssignmentId String?         @map("discount_assignment_id") @db.Uuid
+  reversalOfEntryId    String?         @map("reversal_of_entry_id") @db.Uuid
+  description          String?
+  createdBy            String?         @map("created_by") @db.Uuid
+  occurredAt           DateTime        @map("occurred_at") @db.Timestamptz
+  createdAt            DateTime        @default(now()) @map("created_at") @db.Timestamptz
+
+  account            StudentAccount      @relation(fields: [organizationId, accountId], references: [organizationId, id])
+  invoice            Invoice?            @relation(fields: [organizationId, invoiceId], references: [organizationId, id])
+  payment            Payment?            @relation(fields: [organizationId, paymentId], references: [organizationId, id])
+  paymentAllocation  PaymentAllocation?  @relation(fields: [paymentAllocationId], references: [id])
+  refund             Refund?             @relation(fields: [organizationId, refundId], references: [organizationId, id])
+  discountAssignment DiscountAssignment? @relation(fields: [organizationId, discountAssignmentId], references: [organizationId, id])
+  reversalOfEntry    StudentLedgerEntry? @relation("student_ledger_entries_reversal_of_entry", fields: [reversalOfEntryId], references: [id])
+  createdByUser      User?               @relation(fields: [createdBy], references: [id])
+
+  reversedByEntry StudentLedgerEntry? @relation("student_ledger_entries_reversal_of_entry")
+
+  @@unique([reversalOfEntryId], map: "ledger_reversal_uq")
+  @@index([organizationId, accountId, occurredAt])
+  @@index([organizationId, entryType, occurredAt])
+  @@map("student_ledger_entries")
+}
+
+model StudentPaymentPlan {
+  id                String   @id @default(uuid()) @db.Uuid
+  organizationId    String   @map("organization_id") @db.Uuid
+  groupEnrollmentId String   @map("group_enrollment_id") @db.Uuid
+  name              String   @db.VarChar
+  totalAmount       Decimal  @map("total_amount") @db.Decimal(18, 2)
+  currency          String   @db.VarChar(3)
+  status            String   @default("ACTIVE") @db.VarChar
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
+  groupEnrollment GroupEnrollment @relation(fields: [organizationId, groupEnrollmentId], references: [organizationId, id])
+
+  studentPaymentPlanInstallments StudentPaymentPlanInstallment[]
+
+  @@unique([organizationId, id], map: "payment_plans_tenant_uq")
+  @@index([groupEnrollmentId])
+  @@map("student_payment_plans")
+}
+
+model StudentPaymentPlanInstallment {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  paymentPlanId  String   @map("payment_plan_id") @db.Uuid
+  installmentNo  Int      @map("installment_no")
+  dueDate        DateTime @map("due_date") @db.Date
+  amount         Decimal  @db.Decimal(18, 2)
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  paymentPlan StudentPaymentPlan @relation(fields: [organizationId, paymentPlanId], references: [organizationId, id])
+
+  invoiceItems InvoiceItem[]
+
+  @@unique([paymentPlanId, installmentNo])
+  @@unique([organizationId, id], map: "installments_tenant_uq")
+  @@index([organizationId, dueDate])
+  @@map("student_payment_plan_installments")
+}
+
+/// V2.0 + TZ 2.2: number GLOBAL unique edi → (organization_id, number) ga o'zgartirildi. lifecycle_status FAQAT DRAFT/ISSUED/VOID — PAID/PARTIAL/OVERDUE allocation'lar va sanadan HOSIL QILINADI, saqlanmaydi (v1.0 dagi to'g'ri qaror saqlab qolindi).
+model Invoice {
+  id              String                 @id @default(uuid()) @db.Uuid
+  organizationId  String                 @map("organization_id") @db.Uuid
+  accountId       String                 @map("account_id") @db.Uuid
+  studentId       String                 @map("student_id") @db.Uuid
+  number          String                 @db.VarChar
+  currency        String                 @db.VarChar(3)
+  issueDate       DateTime               @map("issue_date") @db.Date
+  dueDate         DateTime?              @map("due_date") @db.Date
+  lifecycleStatus InvoiceLifecycleStatus @default(DRAFT) @map("lifecycle_status")
+  voidedAt        DateTime?              @map("voided_at") @db.Timestamptz
+  voidReason      String?                @map("void_reason")
+  createdBy       String?                @map("created_by") @db.Uuid
+  createdAt       DateTime               @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime               @default(now()) @map("updated_at") @db.Timestamptz
+
+  account       StudentAccount @relation(fields: [organizationId, accountId], references: [organizationId, id])
+  student       Student        @relation(fields: [organizationId, studentId], references: [organizationId, id])
+  createdByUser User?          @relation(fields: [createdBy], references: [id])
+
+  studentLedgerEntries StudentLedgerEntry[]
+  invoiceItems         InvoiceItem[]
+  paymentAllocations   PaymentAllocation[]
+  refundAllocations    RefundAllocation[]
+
+  @@unique([organizationId, number], map: "invoices_org_number_uq")
+  @@unique([organizationId, id], map: "invoices_tenant_uq")
+  @@unique([organizationId, accountId, id], map: "invoices_account_uq")
+  @@index([organizationId, studentId, issueDate])
+  @@index([organizationId, lifecycleStatus, dueDate])
+  @@map("invoices")
+}
+
+/// total SAQLANMAYDI — quantity * unit_price dan hosil qilinadi (3NF).
+model InvoiceItem {
+  id                       String   @id @default(uuid()) @db.Uuid
+  organizationId           String   @map("organization_id") @db.Uuid
+  invoiceId                String   @map("invoice_id") @db.Uuid
+  itemCode                 String   @map("item_code") @db.VarChar
+  description              String   @db.VarChar
+  quantity                 Decimal  @db.Decimal(18, 4)
+  unitPrice                Decimal  @map("unit_price") @db.Decimal(18, 2)
+  paymentPlanInstallmentId String?  @unique @map("payment_plan_installment_id") @db.Uuid
+  discountAssignmentId     String?  @map("discount_assignment_id") @db.Uuid
+  createdAt                DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  invoice                Invoice                        @relation(fields: [organizationId, invoiceId], references: [organizationId, id])
+  paymentPlanInstallment StudentPaymentPlanInstallment? @relation(fields: [organizationId, paymentPlanInstallmentId], references: [organizationId, id])
+  discountAssignment     DiscountAssignment?            @relation(fields: [organizationId, discountAssignmentId], references: [organizationId, id])
+
+  @@index([organizationId, invoiceId])
+  @@map("invoice_items")
+}
+
+model Payment {
+  id               String        @id @default(uuid()) @db.Uuid
+  organizationId   String        @map("organization_id") @db.Uuid
+  accountId        String        @map("account_id") @db.Uuid
+  studentId        String        @map("student_id") @db.Uuid
+  cashboxId        String?       @map("cashbox_id") @db.Uuid
+  branchId         String?       @map("branch_id") @db.Uuid
+  amount           Decimal       @db.Decimal(18, 2)
+  currency         String        @db.VarChar(3)
+  method           PaymentMethod
+  status           PaymentStatus @default(PENDING)
+  paidAt           DateTime      @map("paid_at") @db.Timestamptz
+  providerIntentId String?       @map("provider_intent_id") @db.Uuid
+  createdBy        String?       @map("created_by") @db.Uuid
+  createdAt        DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime      @default(now()) @map("updated_at") @db.Timestamptz
+
+  account        StudentAccount @relation(fields: [organizationId, accountId], references: [organizationId, id])
+  student        Student        @relation(fields: [organizationId, studentId], references: [organizationId, id])
+  cashbox        Cashbox?       @relation(fields: [organizationId, cashboxId], references: [organizationId, id])
+  branch         Branch?        @relation(fields: [organizationId, branchId], references: [organizationId, id])
+  providerIntent PaymentIntent? @relation(fields: [organizationId, providerIntentId], references: [organizationId, id])
+  createdByUser  User?          @relation(fields: [createdBy], references: [id])
+
+  studentLedgerEntries StudentLedgerEntry[]
+  paymentAllocations   PaymentAllocation[]
+  refunds              Refund[]
+
+  @@unique([organizationId, id], map: "payments_tenant_uq")
+  @@unique([organizationId, accountId, id], map: "payments_account_uq")
+  @@unique([providerIntentId], map: "payments_intent_uq")
+  @@index([organizationId, paidAt])
+  @@index([organizationId, studentId, paidAt])
+  @@index([organizationId, cashboxId, paidAt])
+  @@map("payments")
+}
+
+/// TZ 1.9: bitta payment bir yoki bir nechta invoice'ga taqsimlanadi. V2.0: account_id + composite FK — boshqa studentning invoice'iga to'lov taqsimlash endi imkonsiz.
+model PaymentAllocation {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  accountId      String   @map("account_id") @db.Uuid
+  paymentId      String   @map("payment_id") @db.Uuid
+  invoiceId      String   @map("invoice_id") @db.Uuid
+  amount         Decimal  @db.Decimal(18, 2)
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  payment Payment @relation(fields: [organizationId, accountId, paymentId], references: [organizationId, accountId, id])
+  invoice Invoice @relation(fields: [organizationId, accountId, invoiceId], references: [organizationId, accountId, id])
+
+  studentLedgerEntries StudentLedgerEntry[]
+
+  @@unique([paymentId, invoiceId])
+  @@index([organizationId, invoiceId])
+  @@map("payment_allocations")
+}
+
+model Refund {
+  id             String       @id @default(uuid()) @db.Uuid
+  organizationId String       @map("organization_id") @db.Uuid
+  accountId      String       @map("account_id") @db.Uuid
+  paymentId      String       @map("payment_id") @db.Uuid
+  cashboxId      String?      @map("cashbox_id") @db.Uuid
+  amount         Decimal      @db.Decimal(18, 2)
+  currency       String       @db.VarChar(3)
+  reason         String?
+  status         RefundStatus @default(REQUESTED)
+  approvedBy     String?      @map("approved_by") @db.Uuid
+  refundedAt     DateTime?    @map("refunded_at") @db.Timestamptz
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime     @default(now()) @map("updated_at") @db.Timestamptz
+
+  payment        Payment  @relation(fields: [organizationId, accountId, paymentId], references: [organizationId, accountId, id])
+  cashbox        Cashbox? @relation(fields: [organizationId, cashboxId], references: [organizationId, id])
+  approvedByUser User?    @relation(fields: [approvedBy], references: [id])
+
+  studentLedgerEntries StudentLedgerEntry[]
+  refundAllocations    RefundAllocation[]
+
+  @@unique([organizationId, id], map: "refunds_tenant_uq")
+  @@index([organizationId, paymentId])
+  @@map("refunds")
+}
+
+/// V2.0 + TZ 1.9: v1.0 da refund faqat payment_id ga bog'langan edi — qaysi invoice qayta qarzdorga aylangani hisoblanmasdi. payment_allocations bilan simmetrik.
+model RefundAllocation {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  refundId       String   @map("refund_id") @db.Uuid
+  invoiceId      String   @map("invoice_id") @db.Uuid
+  amount         Decimal  @db.Decimal(18, 2)
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  refund  Refund  @relation(fields: [organizationId, refundId], references: [organizationId, id])
+  invoice Invoice @relation(fields: [organizationId, invoiceId], references: [organizationId, id])
+
+  @@unique([refundId, invoiceId])
+  @@index([organizationId, invoiceId])
+  @@map("refund_allocations")
+}
+
+model Discount {
+  id             String       @id @default(uuid()) @db.Uuid
+  organizationId String       @map("organization_id") @db.Uuid
+  name           String       @db.VarChar
+  type           DiscountType
+  value          Decimal      @db.Decimal(18, 4)
+  validFrom      DateTime?    @map("valid_from") @db.Date
+  validTo        DateTime?    @map("valid_to") @db.Date
+  status         String       @default("ACTIVE") @db.VarChar
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime     @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  discountAssignments DiscountAssignment[]
+
+  @@unique([organizationId, name], map: "discounts_org_name_uq")
+  @@unique([organizationId, id], map: "discounts_tenant_uq")
+  @@map("discounts")
+}
+
+/// V2.0: unique qo'shildi — v1.0 da bir chegirmani bir enrollment'ga ikki marta qo'llash mumkin edi.
+model DiscountAssignment {
+  id                String   @id @default(uuid()) @db.Uuid
+  organizationId    String   @map("organization_id") @db.Uuid
+  discountId        String   @map("discount_id") @db.Uuid
+  groupEnrollmentId String   @map("group_enrollment_id") @db.Uuid
+  approvedBy        String?  @map("approved_by") @db.Uuid
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  discount        Discount        @relation(fields: [organizationId, discountId], references: [organizationId, id])
+  groupEnrollment GroupEnrollment @relation(fields: [organizationId, groupEnrollmentId], references: [organizationId, id])
+  approvedByUser  User?           @relation(fields: [approvedBy], references: [id])
+
+  studentLedgerEntries StudentLedgerEntry[]
+  invoiceItems         InvoiceItem[]
+
+  @@unique([discountId, groupEnrollmentId], map: "discount_assignments_uq")
+  @@unique([organizationId, id], map: "discount_assignments_tenant_uq")
+  @@map("discount_assignments")
+}
+
+model PaymentProviderAccount {
+  id                   String                @id @default(uuid()) @db.Uuid
+  organizationId       String                @map("organization_id") @db.Uuid
+  provider             String                @db.VarChar
+  merchantRef          String?               @map("merchant_ref") @db.VarChar
+  credentialsEncrypted String                @map("credentials_encrypted")
+  status               ProviderAccountStatus @default(ACTIVE)
+  createdAt            DateTime              @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt            DateTime              @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  paymentIntents  PaymentIntent[]
+  paymentWebhooks PaymentWebhook[]
+
+  @@unique([organizationId, provider])
+  @@unique([organizationId, id], map: "ppa_tenant_uq")
+  @@map("payment_provider_accounts")
+}
+
+model PaymentIntent {
+  id                String              @id @default(uuid()) @db.Uuid
+  organizationId    String              @map("organization_id") @db.Uuid
+  providerAccountId String              @map("provider_account_id") @db.Uuid
+  studentId         String?             @map("student_id") @db.Uuid
+  amount            Decimal             @db.Decimal(18, 2)
+  currency          String              @db.VarChar(3)
+  idempotencyKey    String              @map("idempotency_key") @db.VarChar
+  providerTxId      String?             @map("provider_tx_id") @db.VarChar
+  status            PaymentIntentStatus @default(CREATED)
+  expiresAt         DateTime?           @map("expires_at") @db.Timestamptz
+  createdAt         DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime            @default(now()) @map("updated_at") @db.Timestamptz
+
+  providerAccount PaymentProviderAccount @relation(fields: [organizationId, providerAccountId], references: [organizationId, id])
+  student         Student?               @relation(fields: [organizationId, studentId], references: [organizationId, id])
+
+  payments Payment[]
+
+  @@unique([providerAccountId, idempotencyKey])
+  @@unique([providerAccountId, providerTxId])
+  @@unique([organizationId, id], map: "payment_intents_tenant_uq")
+  @@index([organizationId, status, createdAt])
+  @@map("payment_intents")
+}
+
+model PaymentWebhook {
+  id                String        @id @default(uuid()) @db.Uuid
+  organizationId    String        @map("organization_id") @db.Uuid
+  providerAccountId String        @map("provider_account_id") @db.Uuid
+  providerEventId   String?       @map("provider_event_id") @db.VarChar
+  signatureValid    Boolean       @map("signature_valid")
+  payload           Json          @db.JsonB
+  status            WebhookStatus @default(RECEIVED)
+  errorMessage      String?       @map("error_message")
+  receivedAt        DateTime      @map("received_at") @db.Timestamptz
+  processedAt       DateTime?     @map("processed_at") @db.Timestamptz
+
+  providerAccount PaymentProviderAccount @relation(fields: [organizationId, providerAccountId], references: [organizationId, id])
+
+  @@unique([providerAccountId, providerEventId])
+  @@index([organizationId, status, receivedAt])
+  @@map("payment_webhooks")
+}
+
+model Cashbox {
+  id             String        @id @default(uuid()) @db.Uuid
+  organizationId String        @map("organization_id") @db.Uuid
+  name           String        @db.VarChar
+  type           CashboxType
+  currency       String        @db.VarChar(3)
+  status         CashboxStatus @default(ACTIVE)
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime      @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  payments                    Payment[]
+  refunds                     Refund[]
+  cashboxBranchScopes         CashboxBranchScope[]
+  otherIncomes                OtherIncome[]
+  expenses                    Expense[]
+  cashboxTransfersFromCashbox CashboxTransfer[]    @relation("cashbox_transfers_from_cashbox")
+  cashboxTransfersToCashbox   CashboxTransfer[]    @relation("cashbox_transfers_to_cashbox")
+
+  @@unique([organizationId, name])
+  @@unique([organizationId, id], map: "cashboxes_tenant_uq")
+  @@map("cashboxes")
+}
+
+/// Ixtiyoriy 1:1 filial scope'i. NULL ustun o'rniga alohida jadval — toza yechim (v1.0 dan saqlab qolindi). Branch va cashbox bir tashkilotda ekani composite FK bilan qulflangan.
+model CashboxBranchScope {
+  organizationId String   @map("organization_id") @db.Uuid
+  cashboxId      String   @id @default(uuid()) @map("cashbox_id") @db.Uuid
+  branchId       String   @map("branch_id") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  cashbox Cashbox @relation(fields: [organizationId, cashboxId], references: [organizationId, id])
+  branch  Branch  @relation(fields: [organizationId, branchId], references: [organizationId, id])
+
+  @@map("cashbox_branch_scopes")
+}
+
+model FinanceCategory {
+  id             String              @id @default(uuid()) @db.Uuid
+  organizationId String              @map("organization_id") @db.Uuid
+  type           FinanceCategoryType
+  name           String              @db.VarChar
+  isActive       Boolean             @default(true) @map("is_active")
+  createdAt      DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime            @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  otherIncomes OtherIncome[]
+  expenses     Expense[]
+
+  @@unique([organizationId, type, name])
+  @@unique([organizationId, id], map: "finance_categories_tenant_uq")
+  @@map("finance_categories")
+}
+
+/// V2.0 3NF eslatmasi: agar kassa cashbox_branch_scopes orqali filialga biriktirilgan bo'lsa, branch_id unga TENG bo'lishi shart — CHECK trigger SQL ilovada. v1.0 da bu ikkisi bir-biriga zid bo'lishi mumkin edi va moliyaviy hisobot ikki xil raqam berardi.
+model OtherIncome {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  branchId       String?  @map("branch_id") @db.Uuid
+  cashboxId      String   @map("cashbox_id") @db.Uuid
+  categoryId     String   @map("category_id") @db.Uuid
+  amount         Decimal  @db.Decimal(18, 2)
+  currency       String   @db.VarChar(3)
+  description    String?
+  occurredAt     DateTime @map("occurred_at") @db.Timestamptz
+  createdBy      String   @map("created_by") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  branch        Branch?         @relation(fields: [organizationId, branchId], references: [organizationId, id])
+  cashbox       Cashbox         @relation(fields: [organizationId, cashboxId], references: [organizationId, id])
+  category      FinanceCategory @relation(fields: [organizationId, categoryId], references: [organizationId, id])
+  createdByUser User            @relation(fields: [createdBy], references: [id])
+
+  @@index([organizationId, occurredAt])
+  @@index([organizationId, cashboxId, occurredAt])
+  @@index([organizationId, categoryId])
+  @@map("other_incomes")
+}
+
+model Expense {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  branchId       String?  @map("branch_id") @db.Uuid
+  cashboxId      String   @map("cashbox_id") @db.Uuid
+  categoryId     String   @map("category_id") @db.Uuid
+  amount         Decimal  @db.Decimal(18, 2)
+  currency       String   @db.VarChar(3)
+  description    String?
+  occurredAt     DateTime @map("occurred_at") @db.Timestamptz
+  createdBy      String   @map("created_by") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  branch        Branch?         @relation(fields: [organizationId, branchId], references: [organizationId, id])
+  cashbox       Cashbox         @relation(fields: [organizationId, cashboxId], references: [organizationId, id])
+  category      FinanceCategory @relation(fields: [organizationId, categoryId], references: [organizationId, id])
+  createdByUser User            @relation(fields: [createdBy], references: [id])
+
+  @@index([organizationId, occurredAt])
+  @@index([organizationId, cashboxId, occurredAt])
+  @@index([organizationId, categoryId])
+  @@map("expenses")
+}
+
+/// CHECK (from_cashbox_id <> to_cashbox_id) — SQL ilovada. v1.0 da kassadan o'ziga o'tkazma qilish mumkin edi.
+model CashboxTransfer {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  fromCashboxId  String   @map("from_cashbox_id") @db.Uuid
+  toCashboxId    String   @map("to_cashbox_id") @db.Uuid
+  amount         Decimal  @db.Decimal(18, 2)
+  currency       String   @db.VarChar(3)
+  exchangeRate   Decimal? @map("exchange_rate") @db.Decimal(18, 8)
+  occurredAt     DateTime @map("occurred_at") @db.Timestamptz
+  createdBy      String   @map("created_by") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  fromCashbox   Cashbox @relation("cashbox_transfers_from_cashbox", fields: [organizationId, fromCashboxId], references: [organizationId, id])
+  toCashbox     Cashbox @relation("cashbox_transfers_to_cashbox", fields: [organizationId, toCashboxId], references: [organizationId, id])
+  createdByUser User    @relation(fields: [createdBy], references: [id])
+
+  @@index([organizationId, occurredAt])
+  @@map("cashbox_transfers")
+}
+
+/// V2.0: unique qo'shildi — v1.0 da umuman yo'q edi (payroll_periods da bor edi — izchilsizlik). BCNF: determinant (organization_id, period_start). Overlap taqiqi SQL ilovada.
+model FinancialPeriod {
+  id             String                @id @default(uuid()) @db.Uuid
+  organizationId String                @map("organization_id") @db.Uuid
+  periodStart    DateTime              @map("period_start") @db.Date
+  periodEnd      DateTime              @map("period_end") @db.Date
+  status         FinancialPeriodStatus @default(OPEN)
+  closedAt       DateTime?             @map("closed_at") @db.Timestamptz
+  closedBy       String?               @map("closed_by") @db.Uuid
+  createdAt      DateTime              @default(now()) @map("created_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  closedByUser User?        @relation(fields: [closedBy], references: [id])
+
+  @@unique([organizationId, periodStart], map: "financial_periods_org_start_uq")
+  @@map("financial_periods")
+}
+
+/// Platform-level — organization_id YO'Q (ongli). TZ 1.10: narx hardcode qilinmaydi.
+model Plan {
+  id           String     @id @default(uuid()) @db.Uuid
+  name         String     @db.VarChar
+  code         String     @unique @db.VarChar
+  monthlyPrice Decimal    @map("monthly_price") @db.Decimal(18, 2)
+  currency     String     @db.VarChar(3)
+  status       PlanStatus @default(ACTIVE)
+  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime   @default(now()) @map("updated_at") @db.Timestamptz
+
+  planFeatures                    PlanFeature[]
+  subscriptions                   Subscription[]
+  subscriptionPlanChangesFromPlan SubscriptionPlanChange[] @relation("subscription_plan_changes_from_plan")
+  subscriptionPlanChangesToPlan   SubscriptionPlanChange[] @relation("subscription_plan_changes_to_plan")
+  subscriptionCharges             SubscriptionCharge[]
+
+  @@map("plans")
+}
+
+/// EAV emas, aniq chegaralangan kalitlar to'plami. 5NF: limit_value (plan, feature) juftligining fakti. V2.0: TZ 1.10 dagi limitlarga SMS kvotasi qo'shildi (audit P2 #28).
+model PlanFeature {
+  planId     String   @map("plan_id") @db.Uuid
+  featureKey String   @map("feature_key") @db.VarChar
+  limitValue Decimal? @map("limit_value") @db.Decimal(18, 4)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  plan Plan @relation(fields: [planId], references: [id])
+
+  @@id([planId, featureKey])
+  @@map("plan_features")
+}
+
+/// Bir org = bitta joriy subscription. Tarix subscription_plan_changes da (V2.0 +).
+model Subscription {
+  id                 String             @id @default(uuid()) @db.Uuid
+  organizationId     String             @unique @map("organization_id") @db.Uuid
+  planId             String             @map("plan_id") @db.Uuid
+  status             SubscriptionStatus @default(ACTIVE)
+  gracePeriodDays    Int                @default(7) @map("grace_period_days")
+  startedAt          DateTime           @map("started_at") @db.Timestamptz
+  currentPeriodStart DateTime           @map("current_period_start") @db.Date
+  currentPeriodEnd   DateTime           @map("current_period_end") @db.Date
+  cancelledAt        DateTime?          @map("cancelled_at") @db.Timestamptz
+  createdAt          DateTime           @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt          DateTime           @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  plan         Plan         @relation(fields: [planId], references: [id])
+
+  subscriptionPlanChanges SubscriptionPlanChange[]
+  subscriptionCharges     SubscriptionCharge[]
+
+  @@index([status, currentPeriodEnd])
+  @@map("subscriptions")
+}
+
+/// V2.0 + TZ 1.10: v1.0 da subscriptions.organization_id unique edi va plan upgrade/downgrade tarixi butunlay yo'qolardi. MRR o'sishini hisoblash imkonsiz edi.
+model SubscriptionPlanChange {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  subscriptionId String   @map("subscription_id") @db.Uuid
+  fromPlanId     String?  @map("from_plan_id") @db.Uuid
+  toPlanId       String   @map("to_plan_id") @db.Uuid
+  reason         String?
+  changedBy      String?  @map("changed_by") @db.Uuid
+  effectiveFrom  DateTime @map("effective_from") @db.Date
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  subscription  Subscription @relation(fields: [subscriptionId], references: [id])
+  organization  Organization @relation(fields: [organizationId], references: [id])
+  fromPlan      Plan?        @relation("subscription_plan_changes_from_plan", fields: [fromPlanId], references: [id])
+  toPlan        Plan         @relation("subscription_plan_changes_to_plan", fields: [toPlanId], references: [id])
+  changedByUser User?        @relation(fields: [changedBy], references: [id])
+
+  @@unique([subscriptionId, effectiveFrom])
+  @@index([organizationId, effectiveFrom])
+  @@map("subscription_plan_changes")
+}
+
+model PlatformWallet {
+  id             String       @id @default(uuid()) @db.Uuid
+  organizationId String       @unique @map("organization_id") @db.Uuid
+  currency       String       @db.VarChar(3)
+  balanceCached  Decimal      @default(0) @map("balance_cached") @db.Decimal(18, 2)
+  status         WalletStatus @default(ACTIVE)
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime     @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  platformWalletTransactions PlatformWalletTransaction[]
+  platformPayments           PlatformPayment[]
+
+  @@map("platform_wallets")
+}
+
+/// IMMUTABLE LEDGER — TZ 1.10. UPDATE/DELETE taqiqlanadi.
+model PlatformWalletTransaction {
+  id             String                @id @default(uuid()) @db.Uuid
+  organizationId String                @map("organization_id") @db.Uuid
+  walletId       String                @map("wallet_id") @db.Uuid
+  type           WalletTransactionType
+  direction      LedgerDirection
+  amount         Decimal               @db.Decimal(18, 2)
+  description    String?
+  occurredAt     DateTime              @map("occurred_at") @db.Timestamptz
+  createdBy      String?               @map("created_by") @db.Uuid
+  createdAt      DateTime              @default(now()) @map("created_at") @db.Timestamptz
+
+  wallet        PlatformWallet @relation(fields: [walletId], references: [id])
+  organization  Organization   @relation(fields: [organizationId], references: [id])
+  createdByUser User?          @relation(fields: [createdBy], references: [id])
+
+  subscriptionCharge SubscriptionCharge?
+  platformPayment    PlatformPayment?
+
+  @@index([walletId, occurredAt])
+  @@index([organizationId, type, occurredAt])
+  @@map("platform_wallet_transactions")
+}
+
+/// V2.0 BCNF tuzatishi: unique (subscription_id, period_start, period_end) → (subscription_id, period_start). period_start → period_end (oylik davr), shuning uchun eski kalit bir davrni ikki xil oxir sanasi bilan yozishga ruxsat berardi.
+model SubscriptionCharge {
+  id             String                   @id @default(uuid()) @db.Uuid
+  organizationId String                   @map("organization_id") @db.Uuid
+  subscriptionId String                   @map("subscription_id") @db.Uuid
+  planId         String                   @map("plan_id") @db.Uuid
+  periodStart    DateTime                 @map("period_start") @db.Date
+  periodEnd      DateTime                 @map("period_end") @db.Date
+  amount         Decimal                  @db.Decimal(18, 2)
+  currency       String                   @db.VarChar(3)
+  status         SubscriptionChargeStatus @default(PENDING)
+  walletTxId     String?                  @unique @map("wallet_tx_id") @db.Uuid
+  failureReason  String?                  @map("failure_reason")
+  chargedAt      DateTime?                @map("charged_at") @db.Timestamptz
+  createdAt      DateTime                 @default(now()) @map("created_at") @db.Timestamptz
+
+  subscription Subscription               @relation(fields: [subscriptionId], references: [id])
+  organization Organization               @relation(fields: [organizationId], references: [id])
+  plan         Plan                       @relation(fields: [planId], references: [id])
+  walletTx     PlatformWalletTransaction? @relation(fields: [walletTxId], references: [id])
+
+  @@unique([subscriptionId, periodStart], map: "subscription_charges_period_uq")
+  @@index([organizationId, status, periodStart])
+  @@map("subscription_charges")
+}
+
+/// Organization → Platform wallet top-up (TZ 1.10).
+model PlatformPayment {
+  id             String        @id @default(uuid()) @db.Uuid
+  organizationId String        @map("organization_id") @db.Uuid
+  walletId       String        @map("wallet_id") @db.Uuid
+  walletTxId     String?       @unique @map("wallet_tx_id") @db.Uuid
+  amount         Decimal       @db.Decimal(18, 2)
+  currency       String        @db.VarChar(3)
+  method         PaymentMethod
+  providerTxId   String?       @map("provider_tx_id") @db.VarChar
+  status         PaymentStatus @default(PENDING)
+  paidAt         DateTime?     @map("paid_at") @db.Timestamptz
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime      @default(now()) @map("updated_at") @db.Timestamptz
+
+  wallet       PlatformWallet             @relation(fields: [walletId], references: [id])
+  organization Organization               @relation(fields: [organizationId], references: [id])
+  walletTx     PlatformWalletTransaction? @relation(fields: [walletTxId], references: [id])
+
+  @@index([organizationId, paidAt])
+  @@map("platform_payments")
+}
+
+/// V2.0: (organization_id, id, channel) unique — notification_deliveries.channel ni composite FK bilan qulflash uchun.
+model CommunicationProviderAccount {
+  id                   String                @id @default(uuid()) @db.Uuid
+  organizationId       String                @map("organization_id") @db.Uuid
+  channel              NotificationChannel
+  provider             String                @db.VarChar
+  credentialsEncrypted String                @map("credentials_encrypted")
+  status               ProviderAccountStatus @default(ACTIVE)
+  createdAt            DateTime              @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt            DateTime              @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  notificationDeliveries NotificationDelivery[]
+  telegramUserLinks      TelegramUserLink[]
+
+  @@unique([organizationId, channel, provider])
+  @@unique([organizationId, id], map: "cpa_tenant_uq")
+  @@unique([organizationId, id, channel], map: "cpa_channel_uq")
+  @@map("communication_provider_accounts")
+}
+
+/// 5NF: body — (org, event, channel, language) to'rtligining fakti, ajratilmaydi.
+model NotificationTemplate {
+  id             String              @id @default(uuid()) @db.Uuid
+  organizationId String              @map("organization_id") @db.Uuid
+  eventKey       String              @map("event_key") @db.VarChar
+  channel        NotificationChannel
+  language       String              @db.VarChar(5)
+  subject        String?             @db.VarChar
+  body           String
+  isActive       Boolean             @default(true) @map("is_active")
+  createdAt      DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime            @default(now()) @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([organizationId, eventKey, channel, language])
+  @@map("notification_templates")
+}
+
+/// 5NF: enabled — (membership, event, channel) uchligining fakti. Ajratilsa "qaysi event uchun qaysi kanal yoqilgan" ma'lumoti yo'qoladi.
+model NotificationPreference {
+  id             String              @id @default(uuid()) @db.Uuid
+  organizationId String              @map("organization_id") @db.Uuid
+  membershipId   String              @map("membership_id") @db.Uuid
+  eventKey       String              @map("event_key") @db.VarChar
+  channel        NotificationChannel
+  enabled        Boolean             @default(true)
+  createdAt      DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime            @default(now()) @map("updated_at") @db.Timestamptz
+
+  membership OrganizationMembership @relation(fields: [organizationId, membershipId], references: [organizationId, id])
+
+  @@unique([membershipId, eventKey, channel])
+  @@index([organizationId, membershipId])
+  @@map("notification_preferences")
+}
+
+model Notification {
+  id               String    @id @default(uuid()) @db.Uuid
+  organizationId   String    @map("organization_id") @db.Uuid
+  eventKey         String    @map("event_key") @db.VarChar
+  recipientUserId  String?   @map("recipient_user_id") @db.Uuid
+  recipientAddress String?   @map("recipient_address") @db.VarChar
+  payload          Json      @db.JsonB
+  scheduledAt      DateTime? @map("scheduled_at") @db.Timestamptz
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  organization  Organization @relation(fields: [organizationId], references: [id])
+  recipientUser User?        @relation(fields: [recipientUserId], references: [id])
+
+  notificationDeliveries NotificationDelivery[]
+
+  @@unique([organizationId, id], map: "notifications_tenant_uq")
+  @@index([organizationId, eventKey, createdAt])
+  @@index([recipientUserId, createdAt])
+  @@index([scheduledAt])
+  @@map("notifications")
+}
+
+/// V2.0 3NF tuzatishi: v1.0 da channel ustuni provider_account_id orqali tranzitiv aniqlanardi (delivery → provider_account → channel) va ikkisi bir-biriga zid bo'lishi mumkin edi. Endi composite FK (organization_id, provider_account_id, channel) → communication_provider_accounts(organization_id, id, c
+model NotificationDelivery {
+  id                String              @id @default(uuid()) @db.Uuid
+  organizationId    String              @map("organization_id") @db.Uuid
+  notificationId    String              @map("notification_id") @db.Uuid
+  channel           NotificationChannel
+  providerAccountId String?             @map("provider_account_id") @db.Uuid
+  providerMessageId String?             @map("provider_message_id") @db.VarChar
+  status            DeliveryStatus      @default(PENDING)
+  attempts          Int                 @default(0)
+  lastError         String?             @map("last_error")
+  sentAt            DateTime?           @map("sent_at") @db.Timestamptz
+  deliveredAt       DateTime?           @map("delivered_at") @db.Timestamptz
+  readAt            DateTime?           @map("read_at") @db.Timestamptz
+  createdAt         DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime            @default(now()) @map("updated_at") @db.Timestamptz
+
+  notification                        Notification                  @relation(fields: [organizationId, notificationId], references: [organizationId, id])
+  channelCommunicationProviderAccount CommunicationProviderAccount? @relation(fields: [organizationId, providerAccountId, channel], references: [organizationId, id, channel])
+
+  @@unique([notificationId, channel])
+  @@index([organizationId, status, createdAt])
+  @@map("notification_deliveries")
+}
+
+model TelegramUserLink {
+  id                String    @id @default(uuid()) @db.Uuid
+  organizationId    String    @map("organization_id") @db.Uuid
+  userId            String    @map("user_id") @db.Uuid
+  providerAccountId String    @map("provider_account_id") @db.Uuid
+  telegramChatId    String    @map("telegram_chat_id") @db.VarChar
+  verifiedAt        DateTime? @map("verified_at") @db.Timestamptz
+  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  user            User                         @relation(fields: [userId], references: [id])
+  providerAccount CommunicationProviderAccount @relation(fields: [organizationId, providerAccountId], references: [organizationId, id])
+
+  @@unique([userId, providerAccountId])
+  @@unique([providerAccountId, telegramChatId])
+  @@map("telegram_user_links")
+}
+
+/// TZ 1.13: katta XLSX/PDF sinxron HTTP ichida generatsiya qilinmaydi.
+model ReportJob {
+  id             String          @id @default(uuid()) @db.Uuid
+  organizationId String?         @map("organization_id") @db.Uuid
+  requestedBy    String          @map("requested_by") @db.Uuid
+  reportType     String          @map("report_type") @db.VarChar
+  filters        Json            @db.JsonB
+  status         ReportJobStatus @default(QUEUED)
+  fileId         String?         @map("file_id") @db.Uuid
+  errorMessage   String?         @map("error_message")
+  expiresAt      DateTime?       @map("expires_at") @db.Timestamptz
+  createdAt      DateTime        @default(now()) @map("created_at") @db.Timestamptz
+  completedAt    DateTime?       @map("completed_at") @db.Timestamptz
+
+  organization    Organization? @relation(fields: [organizationId], references: [id])
+  requestedByUser User          @relation(fields: [requestedBy], references: [id])
+  file            File?         @relation(fields: [organizationId, fileId], references: [organizationId, id])
+
+  @@index([organizationId, status, createdAt])
+  @@index([expiresAt])
+  @@map("report_jobs")
+}
+
+/// TZ 2.4 Transactional Outbox. KRITIK: publisher uchun partial index MAJBURIY — CREATE INDEX ... ON outbox_events (occurred_at) WHERE published_at IS NULL. Usiz worker har safar butun jadvalni skanerlaydi va jadval o'sgani sari sekinlashadi (v1.0 da hech qanday index yo'q edi).
+model OutboxEvent {
+  id             String    @id @default(uuid()) @db.Uuid
+  organizationId String?   @map("organization_id") @db.Uuid
+  topic          String    @db.VarChar
+  version        Int
+  aggregateType  String    @map("aggregate_type") @db.VarChar
+  aggregateId    String    @map("aggregate_id") @db.Uuid
+  payload        Json      @db.JsonB
+  occurredAt     DateTime  @map("occurred_at") @db.Timestamptz
+  publishedAt    DateTime? @map("published_at") @db.Timestamptz
+  attempts       Int       @default(0)
+  lastError      String?   @map("last_error")
+
+  organization Organization? @relation(fields: [organizationId], references: [id])
+
+  @@index([aggregateType, aggregateId, occurredAt])
+  @@index([topic, occurredAt])
+  @@map("outbox_events")
+}
+
+/// V2.0 KRITIK TUZATISH: v1.0 da hech qanday unique index YO'Q edi. Jadvalning butun mazmuni — takrorlanishni DB darajasida bloklash. Usiz ikkita parallel so'rov ikkalasi ham "yangi kalit" deb hisoblanardi va IKKI MARTA TO'LOV yozilardi (TZ 1.9 "idempotency, duplicate protection majburiy").
+model IdempotencyKey {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String?  @map("organization_id") @db.Uuid
+  scope          String   @db.VarChar
+  key            String   @db.VarChar
+  requestHash    String?  @map("request_hash") @db.VarChar
+  responseCode   Int?     @map("response_code")
+  responseBody   Json?    @map("response_body") @db.JsonB
+  expiresAt      DateTime @map("expires_at") @db.Timestamptz
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  organization Organization? @relation(fields: [organizationId], references: [id])
+
+  @@unique([scope, key], map: "idempotency_scope_key_uq")
+  @@index([expiresAt])
+  @@map("idempotency_keys")
+}
+
+/// Immutable. TZ 2.6: sensitive payload mask qilinadi — password/token/card secret YOZILMAYDI.
+model AuditLog {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String?  @map("organization_id") @db.Uuid
+  branchId       String?  @map("branch_id") @db.Uuid
+  actorUserId    String?  @map("actor_user_id") @db.Uuid
+  action         String   @db.VarChar
+  entityType     String   @map("entity_type") @db.VarChar
+  entityId       String?  @map("entity_id") @db.Uuid
+  oldValue       Json?    @map("old_value") @db.JsonB
+  newValue       Json?    @map("new_value") @db.JsonB
+  requestId      String?  @map("request_id") @db.VarChar
+  ipAddress      String?  @map("ip_address") @db.VarChar
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  organization Organization? @relation(fields: [organizationId], references: [id])
+  branch       Branch?       @relation(fields: [organizationId, branchId], references: [organizationId, id])
+  actorUser    User?         @relation(fields: [actorUserId], references: [id])
+
+  @@index([organizationId, entityType, entityId, createdAt])
+  @@index([organizationId, actorUserId, createdAt])
+  @@index([requestId])
+  @@map("audit_logs")
+}

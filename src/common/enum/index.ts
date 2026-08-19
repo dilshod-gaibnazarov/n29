@@ -1,0 +1,21 @@
+export enum PlatformRoles {
+  SUPERADMIN = 'SUPERADMIN',
+  ADMIN = 'ADMIN',
+}
+
+export enum OrganizationRoles {
+  DIRECTOR = 'DIRECTOR',
+  MANAGER = 'MANAGER',
+  RECEPTION = 'RECEPTION',
+  TEACHER = 'TEACHER',
+  SUPPORT_TEACHER = 'SUPPORT_TEACHER',
+  STUDENT = 'STUDENT',
+  PARENT = 'PARENT',
+}
+
+export enum UserStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  BLOCKED = 'BLOCKED',
+  PENDING = 'PENDING',
+}
