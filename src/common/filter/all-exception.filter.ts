@@ -4,11 +4,14 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
+  private readonly logger = new Logger(AllExceptionsFilter.name);
+
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
 
@@ -22,7 +25,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     if (exception instanceof HttpException) {
       statusCode = exception.getStatus();
-
       code = HttpStatus[statusCode] ?? 'HTTP_ERROR';
 
       const exceptionResponse = exception.getResponse();
@@ -31,7 +33,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
         message = exceptionResponse;
       }
 
-      if (typeof exceptionResponse === 'object' && exceptionResponse !== null) {
+      if (
+        typeof exceptionResponse === 'object' &&
+        exceptionResponse !== null
+      ) {
         const data = exceptionResponse as {
           error?: string;
           code?: string;
@@ -50,12 +55,23 @@ export class AllExceptionsFilter implements ExceptionFilter {
         details = data.details;
       }
     }
+    if (exception instanceof Error) {
+      this.logger.error(
+        `${request.method} ${request.url} -> ${statusCode} ${exception.message}`,
+        exception.stack,
+      );
+    } else {
+      this.logger.error(
+        `${request.method} ${request.url} -> ${statusCode}`,
+        JSON.stringify(exception),
+      );
+    }
 
     response.status(statusCode).json({
       statusCode,
       code,
       message,
-      ...(details ? { details } : {}),
+      ...(details !== undefined ? { details } : {}),
       path: request.url,
       timestamp: new Date().toISOString(),
     });

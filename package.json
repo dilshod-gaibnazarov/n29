@@ -31,7 +31,6 @@
     "class-validator": "^0.15.1",
     "helmet": "^8.3.0",
     "ioredis": "^6.0.0",
-    "otp-generator": "^4.0.1",
     "prisma": "^7.9.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
