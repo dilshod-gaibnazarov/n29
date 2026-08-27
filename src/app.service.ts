@@ -5,6 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AllExceptionsFilter } from './common/filter/all-exception.filter';
+import cookieParser from 'cookie-parser';
 
 export class App {
   static async main() {
@@ -23,6 +24,8 @@ export class App {
     app.useGlobalFilters(new AllExceptionsFilter());
 
     app.use(helmet());
+
+    app.use(cookieParser());
 
     app.enableCors({ origin: '*' });
 

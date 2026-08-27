@@ -11,6 +11,8 @@ import { successRes } from '../../common/helper/success-response';
 import { OtpService } from '../otp/otp.service';
 import { VerifyOTPDto } from '../otp/dto/verify-otp.dto';
 import { Token } from '../../infrastructure/lib/Token';
+import type { Response } from 'express';
+import { env } from '../../config';
 
 @Injectable()
 export class AuthService {
@@ -34,7 +36,7 @@ export class AuthService {
     return successRes(data, 201);
   }
 
-  async confirmSignIn(dto: VerifyOTPDto) {
+  async confirmSignIn(dto: VerifyOTPDto, res: Response) {
     const user = await this.db.user.findUnique({ where: { phone: dto.phone } });
     if (!user) {
       throw new NotFoundException('Foydalanuvchi topilmadi');
@@ -43,6 +45,11 @@ export class AuthService {
     const payload = { id: user.id, role: user.role, status: user.status };
     const accessToken = await Token.generateAccess(payload);
     const refreshToken = await Token.generateRefresh(payload);
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: false,
+      maxAge: parseInt(env.TOKEN.REFRESH_TIME) * 24 * 60 * 60 * 1000,
+    });
     return successRes({ token: accessToken }, 201);
   }
 }

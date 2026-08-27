@@ -1,7 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Res, Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { VerifyOTPDto } from '../otp/dto/verify-otp.dto';
+import type { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -13,7 +14,10 @@ export class AuthController {
   }
 
   @Post('confirm')
-  confirmSignIn(@Body() dto: VerifyOTPDto) {
-    return this.authService.confirmSignIn(dto);
+  confirmSignIn(
+    @Body() dto: VerifyOTPDto,
+    @Res({passthrough: true}) res: Response
+  ) {
+    return this.authService.confirmSignIn(dto, res);
   }
 }
