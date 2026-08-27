@@ -30,7 +30,7 @@ export class PrismaService
     await this.$connect();
     this.logger.log('Database connected');
 
-    const isSuperAdmin = await this.admin.findFirst({
+    const isSuperAdmin = await this.user.findFirst({
       where: {
         role: Roles.SUPERADMIN,
       },
@@ -40,11 +40,6 @@ export class PrismaService
         data: {
           phone: env.SUPERADMIN.PHONE,
           hashedPassword: await Crypt.hash(env.SUPERADMIN.PASSWORD),
-        },
-      });
-      await this.admin.create({
-        data: {
-          userId: user.id,
           role: Roles.SUPERADMIN,
         },
       });

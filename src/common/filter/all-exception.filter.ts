@@ -33,10 +33,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         message = exceptionResponse;
       }
 
-      if (
-        typeof exceptionResponse === 'object' &&
-        exceptionResponse !== null
-      ) {
+      if (typeof exceptionResponse === 'object' && exceptionResponse !== null) {
         const data = exceptionResponse as {
           error?: string;
           code?: string;
