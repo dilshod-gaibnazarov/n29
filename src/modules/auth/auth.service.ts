@@ -19,7 +19,7 @@ export class AuthService {
   constructor(
     private readonly db: PrismaService,
     private readonly otp: OtpService,
-  ) { }
+  ) {}
 
   async signIn(dto: SignInDto) {
     const user: any = await this.db.user.findUnique({

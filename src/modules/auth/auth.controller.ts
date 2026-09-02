@@ -8,7 +8,7 @@ import { successRes } from '../../common/helper/success-response';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+  constructor(private readonly authService: AuthService) {}
 
   @Post('signin')
   signIn(@Body() dto: SignInDto) {
@@ -18,7 +18,7 @@ export class AuthController {
   @Post('confirm')
   confirmSignIn(
     @Body() dto: VerifyOTPDto,
-    @Res({ passthrough: true }) res: Response
+    @Res({ passthrough: true }) res: Response,
   ) {
     return this.authService.confirmSignIn(dto, res);
   }

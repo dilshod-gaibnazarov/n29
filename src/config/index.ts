@@ -4,11 +4,11 @@ config();
 export const env = {
   PORT: Number(process.env.PORT),
   DB_URI: String(process.env.DB_URI),
+  REDIS_URL: String(process.env.REDIS_URL),
   SUPERADMIN: {
     PHONE: String(process.env.SUPERADMIN_PHONE),
     PASSWORD: String(process.env.SUPERADMIN_PASSWORD),
   },
-  REDIS_URL: String(process.env.REDIS_URL),
   OTP: {
     TTL: Number(process.env.OTP_TTL),
     RESEND: Number(process.env.OTP_RESEND),
@@ -26,5 +26,11 @@ export const env = {
     ACCESS_TIME: String(process.env.ACCESS_TOKEN_TIME),
     REFRESH_KEY: String(process.env.REFRESH_TOKEN_KEY),
     REFRESH_TIME: String(process.env.REFRESH_TOKEN_TIME),
+  },
+  SMTP: {
+    PORT: Number(process.env.SMTP_PORT),
+    HOST: String(process.env.SMTP_HOST),
+    FROM: String(process.env.SMTP_FROM),
+    PASSWORD: String(process.env.SMTP_PASSWORD),
   },
 };

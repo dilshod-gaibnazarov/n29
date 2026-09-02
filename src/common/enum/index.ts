@@ -7,5 +7,5 @@ export enum Roles {
 
 export enum Status {
   ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE'
+  INACTIVE = 'INACTIVE',
 }
