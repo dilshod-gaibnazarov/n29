@@ -36,7 +36,7 @@ export class PrismaService
       },
     });
     if (!isSuperAdmin) {
-      const user = await this.user.create({
+      await this.user.create({
         data: {
           phone: env.SUPERADMIN.PHONE,
           hashedPassword: await Crypt.hash(env.SUPERADMIN.PASSWORD),

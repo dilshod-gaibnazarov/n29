@@ -4,3 +4,8 @@ export enum Roles {
   SELLER = 'SELLER',
   CUSTOMER = 'CUSTOMER',
 }
+
+export enum Status {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE'
+}
