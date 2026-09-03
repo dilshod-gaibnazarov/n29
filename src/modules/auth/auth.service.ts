@@ -19,7 +19,7 @@ export class AuthService {
   constructor(
     private readonly db: PrismaService,
     private readonly otp: OtpService,
-  ) {}
+  ) { }
 
   async signIn(dto: SignInDto) {
     const user: any = await this.db.user.findUnique({
@@ -50,7 +50,12 @@ export class AuthService {
       secure: false,
       maxAge: parseInt(env.TOKEN.REFRESH_TIME) * 24 * 60 * 60 * 1000,
     });
-    return successRes({ token: accessToken }, 201);
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: false,
+      maxAge: parseInt(env.TOKEN.ACCESS_TIME) * 24 * 60 * 60 * 1000,
+    });
+    return successRes({ user: { id: user.id, status: user.status } }, 201);
   }
 
   async refreshToken(refreshToken: string) {

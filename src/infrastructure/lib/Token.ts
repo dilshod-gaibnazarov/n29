@@ -30,4 +30,15 @@ export class Token {
       throw new UnauthorizedException('Tizimga kirishda nosozlik');
     }
   }
+
+  static async verifyAccessToken(accessToken: string) {
+    try {
+      const verifiedData = await this.jwt.verifyAsync(accessToken, {
+        secret: env.TOKEN.ACCESS_KEY,
+      });
+      return verifiedData;
+    } catch (error) {
+      throw new UnauthorizedException('Tizimga kirishda nosozlik');
+    }
+  }
 }
