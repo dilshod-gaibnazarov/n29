@@ -1,14 +1,19 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { PrismaService } from '../../config/database/prisma.service';
 import { Crypt } from '../../infrastructure/lib/Crypt';
 import { Roles } from '../../common/enum';
 import { successRes } from '../../common/helper/success-response';
+import { File } from '../../infrastructure/lib/File';
 
 @Injectable()
 export class AdminService {
-  constructor(private readonly db: PrismaService) { }
+  constructor(private readonly db: PrismaService) {}
 
   async create(createAdminDto: CreateAdminDto) {
     const { phone, password } = createAdminDto;
@@ -18,21 +23,54 @@ export class AdminService {
     }
     const hashedPassword = await Crypt.hash(password);
     const admin = await this.db.user.create({
-      data: { phone, hashedPassword, role: Roles.ADMIN }
+      data: { phone, hashedPassword, role: Roles.ADMIN },
     });
     return successRes(admin, 201);
   }
 
-  findAll() {
-    return `This action returns all admin`;
+  async findAll() {
+    const admins = await this.db.user.findMany({
+      where: {
+        role: Roles.ADMIN,
+      },
+      select: {
+        id: true,
+        phone: true,
+        status: true,
+        fullName: true,
+        imageUrl: true,
+      },
+      orderBy: { updatedAt: 'desc' },
+    });
+    return admins;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} admin`;
+  async findOne(id: number) {
+    const admin = await this.db.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        phone: true,
+        status: true,
+        fullName: true,
+        imageUrl: true,
+      },
+    });
+    if (!admin) {
+      throw new NotFoundException();
+    }
+    return admin;
   }
 
-  update(id: number, updateAdminDto: UpdateAdminDto) {
-    return `This action updates a #${id} admin`;
+  async update(
+    id: number,
+    updateAdminDto: UpdateAdminDto,
+    image?: Express.Multer.File,
+  ) {
+    if (image) {
+      const imageUrl = await File.create(image);
+      return imageUrl;
+    }
   }
 
   remove(id: number) {

@@ -5,6 +5,8 @@ export const env = {
   PORT: Number(process.env.PORT),
   DB_URI: String(process.env.DB_URI),
   REDIS_URL: String(process.env.REDIS_URL),
+  BASE_URL: String(process.env.BASE_URL),
+  FILE_PATH: String(process.env.FILE_PATH),
   SUPERADMIN: {
     PHONE: String(process.env.SUPERADMIN_PHONE),
     PASSWORD: String(process.env.SUPERADMIN_PASSWORD),

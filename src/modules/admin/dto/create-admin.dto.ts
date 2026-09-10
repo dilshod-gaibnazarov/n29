@@ -1,11 +1,11 @@
-import { IsNotEmpty, IsPhoneNumber, IsStrongPassword } from "class-validator";
+import { IsNotEmpty, IsPhoneNumber, IsStrongPassword } from 'class-validator';
 
 export class CreateAdminDto {
-    @IsPhoneNumber('UZ')
-    @IsNotEmpty()
-    phone!: string;
+  @IsPhoneNumber('UZ')
+  @IsNotEmpty()
+  phone!: string;
 
-    @IsStrongPassword()
-    @IsNotEmpty()
-    password!: string;
+  @IsStrongPassword()
+  @IsNotEmpty()
+  password!: string;
 }

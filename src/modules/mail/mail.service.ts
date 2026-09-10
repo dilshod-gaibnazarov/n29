@@ -3,7 +3,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class MailService {
-  constructor(private readonly mailerService: MailerService) { }
+  constructor(private readonly mailerService: MailerService) {}
 
   async sendMail(
     to: string,
@@ -16,7 +16,7 @@ export class MailService {
         subject,
         text,
       });
-      return { success: true }
+      return { success: true };
     } catch (error) {
       throw new BadRequestException("Gmailga xabar jo'natishda xatolik");
     }

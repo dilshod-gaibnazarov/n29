@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { env } from './config';
+import express from 'express';
+import { join } from 'path';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -12,6 +14,11 @@ export class App {
     const app = await NestFactory.create(AppModule);
     const PORT = env.PORT;
     const url = '/api/v1';
+
+    app.use(
+      `${url}/uploads`,
+      express.static(join(process.cwd(), 'uploads')),
+    );
 
     app.useGlobalPipes(
       new ValidationPipe({

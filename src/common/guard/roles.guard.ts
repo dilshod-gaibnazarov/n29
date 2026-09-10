@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '../decorator/roles.decorator';
+import { Roles } from '../enum';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -23,6 +24,12 @@ export class RolesGuard implements CanActivate {
     const user = req.user;
     if (!user) {
       throw new ForbiddenException('Foydalanuvchi topilmadi');
+    }
+    if (user.role === Roles.SUPERADMIN) {
+      return true;
+    }
+    if (requiredRoles.includes('ID') && req.params?.id == req.user?.id) {
+      return true;
     }
     const hasRole = requiredRoles.includes(user.role);
     if (!hasRole) {

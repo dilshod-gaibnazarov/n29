@@ -7,6 +7,13 @@ import { AuthModule } from './modules/auth/auth.module';
 import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
-  imports: [PrismaModule, RedisModule, OtpModule, MailModule, AuthModule, AdminModule],
+  imports: [
+    PrismaModule,
+    RedisModule,
+    OtpModule,
+    MailModule,
+    AuthModule,
+    AdminModule,
+  ],
 })
 export class AppModule {}
