@@ -9,6 +9,7 @@ import {
   UseGuards,
   UseInterceptors,
   UploadedFile,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
@@ -17,11 +18,12 @@ import { AuthGuard } from '../../common/guard/jwt-auth.guard';
 import { RolesGuard } from '../../common/guard/roles.guard';
 import { AccessRoles } from '../../common/decorator/roles.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ImageValidationPipe } from '../../common/pipe/image-validation.pipe';
 
 @UseGuards(AuthGuard, RolesGuard)
 @Controller('admin')
 export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(private readonly adminService: AdminService) { }
 
   @Post()
   create(@Body() createAdminDto: CreateAdminDto) {
@@ -35,17 +37,20 @@ export class AdminController {
 
   @AccessRoles('ID')
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.adminService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.adminService.findOne(id);
   }
 
-  @AccessRoles('ID')
   @Patch(':id')
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileInterceptor('image', {
+    limits: {
+      fileSize: 20 * 1024 * 1024
+    },
+  }))
   update(
     @Param('id') id: string,
     @Body() updateAdminDto: UpdateAdminDto,
-    @UploadedFile() image?: Express.Multer.File,
+    @UploadedFile(new ImageValidationPipe) image?: Express.Multer.File,
   ) {
     return this.adminService.update(+id, updateAdminDto, image);
   }

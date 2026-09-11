@@ -1,7 +1,4 @@
-import {
-  BadRequestException,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { existsSync, mkdirSync, unlink, writeFile } from 'fs';
 import { join } from 'path';
 import { env } from '../../config';
@@ -23,7 +20,7 @@ export class File {
       });
       return `${env.BASE_URL}/${fileName}`;
     } catch (error) {
-      throw new InternalServerErrorException('Fayl yuklashda muammo');
+      throw new BadRequestException('Fayl yuklashda muammo');
     }
   }
 
@@ -41,7 +38,7 @@ export class File {
         });
       });
     } catch (error) {
-      throw new InternalServerErrorException("Faylni o'chirishda muammo");
+      throw new BadRequestException("Faylni o'chirishda muammo");
     }
   }
 
@@ -49,13 +46,9 @@ export class File {
     try {
       const file = fileName.split(`${env.BASE_URL}/`)[1];
       const fileUrl = join(File.filePath, file);
-      if (existsSync(fileUrl)) {
-        return true;
-      } else {
-        return false;
-      }
+      return existsSync(fileUrl) ? true : false;
     } catch (error) {
-      throw new InternalServerErrorException('Fayl topilmadi');
+      throw new BadRequestException('Fayl topilmadi');
     }
   }
 }
