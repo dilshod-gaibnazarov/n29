@@ -21,13 +21,23 @@ enum Status {
 }
 
 model User {
-  id             Int      @id @default(autoincrement())
-  phone          String   @unique
+  id             Int       @id @default(autoincrement())
+  phone          String    @unique
   hashedPassword String
-  status         Status   @default(ACTIVE)
+  status         Status    @default(ACTIVE)
   role           Roles
   fullName       String?
   imageUrl       String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  devices        Devices[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Devices {
+  deviceId        Int      @id @default(autoincrement())
+  device    String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

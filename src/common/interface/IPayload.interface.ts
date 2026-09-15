@@ -1,5 +1,6 @@
 export interface IPayload {
-  id: number;
+  sub: number;
   role: string;
   status: string;
+  deviceId: number;
 }

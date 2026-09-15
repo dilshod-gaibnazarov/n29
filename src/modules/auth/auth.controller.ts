@@ -1,14 +1,14 @@
-import { Res, Body, Controller, Post } from '@nestjs/common';
+import { Res, Body, Controller, Post, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { VerifyOTPDto } from '../otp/dto/verify-otp.dto';
-import type { Response } from 'express';
+import type { Response, Request } from 'express';
 import { RefreshToken } from '../../common/decorator/get-cookie.decorator';
 import { successRes } from '../../common/helper/success-response';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @Post('signin')
   signIn(@Body() dto: SignInDto) {
@@ -18,9 +18,10 @@ export class AuthController {
   @Post('confirm')
   confirmSignIn(
     @Body() dto: VerifyOTPDto,
+    @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ) {
-    return this.authService.confirmSignIn(dto, res);
+    return this.authService.confirmSignIn(dto, req, res);
   }
 
   @Post('refresh')
@@ -29,8 +30,10 @@ export class AuthController {
   }
 
   @Post('signout')
-  signout(@Res({ passthrough: true }) res: Response) {
-    res.clearCookie('refreshToken');
-    return successRes({}, 201);
+  signout(
+    @RefreshToken() refreshToken: string,
+    @Res({ passthrough: true }) res: Response
+  ) {
+    return this.authService.signOut(refreshToken, res);
   }
 }
