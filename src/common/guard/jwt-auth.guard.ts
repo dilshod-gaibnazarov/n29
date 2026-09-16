@@ -14,11 +14,16 @@ export class AuthGuard implements CanActivate {
     if (!accessToken) {
       throw new UnauthorizedException('Tizimga kirishda nosozlik');
     }
-    const data = await Token.verifyAccessToken(accessToken);
+    const data = await Token.verifyToken(accessToken, 'access');
     if (!data) {
       throw new UnauthorizedException('Tizimga kirishda nosozlik');
     }
-    req.user = { id: data.id, role: data.role, status: data.status };
+    req.user = {
+      sub: data.sub,
+      role: data.role,
+      status: data.status,
+      deviceId: data.deviceId,
+    };
     return true;
   }
 }

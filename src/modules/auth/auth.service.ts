@@ -12,8 +12,6 @@ import { OtpService } from '../otp/otp.service';
 import { VerifyOTPDto } from '../otp/dto/verify-otp.dto';
 import { Token } from '../../infrastructure/lib/Token';
 import type { Response, Request } from 'express';
-import { env } from '../../config';
-import { Status } from '../../../generated/prisma/enums';
 import { getDeviceInfo } from '../../common/helper/device-info';
 
 @Injectable()
@@ -21,7 +19,7 @@ export class AuthService {
   constructor(
     private readonly db: PrismaService,
     private readonly otp: OtpService,
-  ) { }
+  ) {}
 
   async signIn(dto: SignInDto) {
     const user: any = await this.db.user.findUnique({
@@ -44,56 +42,92 @@ export class AuthService {
       throw new NotFoundException('Foydalanuvchi topilmadi');
     }
     await this.otp.verifyOtp(user.phone, dto.code);
-    const devices = await this.db.devices.findMany({ where: { userId: user.id } });
+    const devices = await this.db.devices.findMany({
+      where: { userId: user.id },
+    });
     if (devices.length >= 2) {
-      throw new ForbiddenException("Qurilmalar soni 2 tadan oshishi taqiqlanadi");
+      throw new ForbiddenException(
+        'Qurilmalar soni 2 tadan oshishi taqiqlanadi',
+      );
     }
     const { client, os } = getDeviceInfo(req);
     const device = await this.db.devices.create({
       data: {
         user: { connect: { id: user.id } },
-        device: `${client?.name} ${os?.name ? os.name : 'unknown'}`
-      }
+        device: `${client?.name} ${os?.name ? os.name : 'unknown'}`,
+        hashedRefreshToken: '',
+      },
     });
     const payload = {
       sub: user.id,
       role: user.role,
       status: user.status,
-      deviceId: device.deviceId
+      deviceId: device.deviceId,
     };
-    const accessToken = await Token.generateAccess(payload);
-    const refreshToken = await Token.generateRefresh(payload);
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: false,
-      maxAge: parseInt(env.TOKEN.REFRESH_TIME) * 24 * 60 * 60 * 1000,
+    const { accessToken, refreshToken } = await Token.getToken(payload);
+    const hashedRefreshToken = await Crypt.hash(refreshToken);
+    await this.db.devices.update({
+      where: { deviceId: device.deviceId },
+      data: {
+        hashedRefreshToken,
+      },
     });
-    res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: false,
-      maxAge: parseInt(env.TOKEN.ACCESS_TIME) * 24 * 60 * 60 * 1000,
-    });
-    return successRes(device, 201);
+    Token.setCookie(res, accessToken, refreshToken);
+    return successRes(
+      {
+        userId: device.userId,
+        deviceId: device.deviceId,
+        device: device.device,
+        createdAt: device.createdAt,
+      },
+      201,
+    );
   }
 
-  async refreshToken(refreshToken: string) {
-    const verifiedData = await Token.verifyRefreshToken(refreshToken);
-    const user = await this.db.user.findUnique({
-      where: { id: verifiedData.id },
+  async refreshToken(refreshToken: string, res: Response) {
+    const verifiedData = await Token.verifyToken(refreshToken, 'refresh');
+    const device = await this.db.devices.findUnique({
+      where: {
+        deviceId: verifiedData.deviceId,
+        userId: verifiedData.userId,
+      },
     });
-    if (!user) {
-      throw new NotFoundException('Foydalanuvchi topilmadi');
+    if (!device) {
+      throw new BadRequestException(
+        'Tizimda bunday foydalanuvchi yoki qurilma topilmadi',
+      );
     }
-    if (user.status === Status.INACTIVE) {
-      throw new BadRequestException('Foydalanuvchi aktiv holatda emas');
+    const isMatchToken = await Crypt.compare(
+      refreshToken,
+      device.hashedRefreshToken,
+    );
+    if (!isMatchToken) {
+      throw new BadRequestException("Qurilma tizimda ro'yxatdan o'tmagan");
     }
     delete verifiedData.iat;
     delete verifiedData.exp;
-    const accessToken = await Token.generateAccess(verifiedData);
-    return successRes({ token: accessToken }, 201);
+    const { accessToken } = await Token.getToken(verifiedData);
+    Token.setCookie(res, accessToken);
+    return successRes(
+      {
+        userId: device.userId,
+        deviceId: device.deviceId,
+        device: device.device,
+        createdAt: device.createdAt,
+      },
+      201,
+    );
   }
 
-  async signOut(refreshToken: string, res: Response){
-    
+  async signOut(refreshToken: string, res: Response) {
+    const verifiedData = await Token.verifyToken(refreshToken, 'refresh');
+    await this.db.devices.delete({
+      where: {
+        deviceId: verifiedData.deviceId,
+        userId: verifiedData.userId,
+      },
+    });
+    Token.clearCookie(res);
+    return successRes({});
   }
 }

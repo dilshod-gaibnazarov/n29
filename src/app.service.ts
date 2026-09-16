@@ -15,10 +15,7 @@ export class App {
     const PORT = env.PORT;
     const url = '/api/v1';
 
-    app.use(
-      `${url}/uploads`,
-      express.static(join(process.cwd(), 'uploads')),
-    );
+    app.use(`${url}/uploads`, express.static(join(process.cwd(), 'uploads')));
 
     app.useGlobalPipes(
       new ValidationPipe({

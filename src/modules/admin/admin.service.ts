@@ -13,7 +13,7 @@ import { File } from '../../infrastructure/lib/File';
 
 @Injectable()
 export class AdminService {
-  constructor(private readonly db: PrismaService) { }
+  constructor(private readonly db: PrismaService) {}
 
   async create(createAdminDto: CreateAdminDto) {
     const { phone, password } = createAdminDto;
@@ -77,7 +77,7 @@ export class AdminService {
     }
     let imageUrl = admin.imageUrl;
     if (image) {
-      if (imageUrl && await File.exist(imageUrl)) {
+      if (imageUrl && (await File.exist(imageUrl))) {
         await File.delete(imageUrl);
       }
       imageUrl = await File.create(image);
@@ -85,7 +85,7 @@ export class AdminService {
     delete updateAdminDto.password;
     await this.db.user.update({
       where: { id },
-      data: { imageUrl, hashedPassword, ...updateAdminDto }
+      data: { imageUrl, hashedPassword, ...updateAdminDto },
     });
     return successRes({});
   }
@@ -95,7 +95,7 @@ export class AdminService {
     if (!admin) {
       throw new NotFoundException();
     }
-    if (admin.imageUrl && await File.exist(admin.imageUrl)) {
+    if (admin.imageUrl && (await File.exist(admin.imageUrl))) {
       await File.delete(admin.imageUrl);
     }
     await this.db.user.delete({ where: { id } });

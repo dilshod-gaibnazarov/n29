@@ -34,10 +34,11 @@ model User {
 }
 
 model Devices {
-  deviceId        Int      @id @default(autoincrement())
-  device    String
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  deviceId           Int      @id @default(autoincrement())
+  device             String
+  hashedRefreshToken String
+  userId             Int
+  user               User     @relation(fields: [userId], references: [id])
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }

@@ -23,7 +23,7 @@ import { ImageValidationPipe } from '../../common/pipe/image-validation.pipe';
 @UseGuards(AuthGuard, RolesGuard)
 @Controller('admin')
 export class AdminController {
-  constructor(private readonly adminService: AdminService) { }
+  constructor(private readonly adminService: AdminService) {}
 
   @Post()
   create(@Body() createAdminDto: CreateAdminDto) {
@@ -42,15 +42,17 @@ export class AdminController {
   }
 
   @Patch(':id')
-  @UseInterceptors(FileInterceptor('image', {
-    limits: {
-      fileSize: 20 * 1024 * 1024
-    },
-  }))
+  @UseInterceptors(
+    FileInterceptor('image', {
+      limits: {
+        fileSize: 20 * 1024 * 1024,
+      },
+    }),
+  )
   update(
     @Param('id') id: string,
     @Body() updateAdminDto: UpdateAdminDto,
-    @UploadedFile(new ImageValidationPipe) image?: Express.Multer.File,
+    @UploadedFile(new ImageValidationPipe()) image?: Express.Multer.File,
   ) {
     return this.adminService.update(+id, updateAdminDto, image);
   }

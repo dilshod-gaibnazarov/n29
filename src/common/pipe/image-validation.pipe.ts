@@ -1,15 +1,11 @@
-import {
-  BadRequestException,
-  Injectable,
-  PipeTransform,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import { extname } from 'path';
 import sharp from 'sharp';
 
 @Injectable()
-export class ImageValidationPipe
-  implements PipeTransform<Express.Multer.File | undefined>
-{
+export class ImageValidationPipe implements PipeTransform<
+  Express.Multer.File | undefined
+> {
   private readonly allowedExtensions = [
     '.jpg',
     '.jpeg',
@@ -34,23 +30,17 @@ export class ImageValidationPipe
     }
 
     if (file.size > this.maxFileSize) {
-      throw new BadRequestException(
-        'Fayl hajmi 10 MB dan oshmasin',
-      );
+      throw new BadRequestException('Fayl hajmi 10 MB dan oshmasin');
     }
 
     const extension = extname(file.originalname).toLowerCase();
     if (!this.allowedExtensions.includes(extension)) {
-      throw new BadRequestException(
-        'Faqat rasm fayllarini yuboring',
-      );
+      throw new BadRequestException('Faqat rasm fayllarini yuboring');
     }
     if (!this.allowedMimeTypes.includes(file.mimetype)) {
-      throw new BadRequestException(
-        'Fayl turi noto‘g‘ri',
-      );
+      throw new BadRequestException('Fayl turi noto‘g‘ri');
     }
-    
+
     try {
       const optimizedBuffer = await sharp(file.buffer)
         .rotate()

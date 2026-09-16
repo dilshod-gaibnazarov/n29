@@ -4,7 +4,7 @@ import { IsNotEmpty, IsPhoneNumber } from 'class-validator';
 export class SendOTPDto {
   @ApiProperty({
     type: String,
-    example: '+998990116606'
+    example: '+998990116606',
   })
   @IsPhoneNumber('UZ')
   @IsNotEmpty()

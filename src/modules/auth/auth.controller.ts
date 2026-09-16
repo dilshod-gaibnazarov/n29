@@ -4,11 +4,10 @@ import { SignInDto } from './dto/sign-in.dto';
 import { VerifyOTPDto } from '../otp/dto/verify-otp.dto';
 import type { Response, Request } from 'express';
 import { RefreshToken } from '../../common/decorator/get-cookie.decorator';
-import { successRes } from '../../common/helper/success-response';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+  constructor(private readonly authService: AuthService) {}
 
   @Post('signin')
   signIn(@Body() dto: SignInDto) {
@@ -25,14 +24,17 @@ export class AuthController {
   }
 
   @Post('refresh')
-  refreshToken(@RefreshToken() refreshToken: string) {
-    return this.authService.refreshToken(refreshToken);
+  refreshToken(
+    @RefreshToken() refreshToken: string,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService.refreshToken(refreshToken, res);
   }
 
   @Post('signout')
   signout(
     @RefreshToken() refreshToken: string,
-    @Res({ passthrough: true }) res: Response
+    @Res({ passthrough: true }) res: Response,
   ) {
     return this.authService.signOut(refreshToken, res);
   }
