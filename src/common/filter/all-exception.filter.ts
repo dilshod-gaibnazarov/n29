@@ -68,7 +68,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       errorStack,
     );
 
-    if (statusCode === 400 || statusCode === 500) {
+    if (statusCode === 500) {
       void this.sendErrorToTelegram({
         request,
         statusCode,
