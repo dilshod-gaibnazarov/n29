@@ -7,9 +7,15 @@ export const env = {
   REDIS_URL: String(process.env.REDIS_URL),
   BASE_URL: String(process.env.BASE_URL),
   FILE_PATH: String(process.env.FILE_PATH),
+  OPENAI_KEY: String(process.env.OPENAI_KEY),
   SUPERADMIN: {
     PHONE: String(process.env.SUPERADMIN_PHONE),
     PASSWORD: String(process.env.SUPERADMIN_PASSWORD),
+  },
+  TELEGRAM: {
+    TOKEN: String(process.env.BOT_TOKEN),
+    ID: Number(process.env.CHAT_ID) as any,
+    TOPIC: Number(process.env.TOPIC_ID),
   },
   OTP: {
     TTL: Number(process.env.OTP_TTL),
