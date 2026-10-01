@@ -1,0 +1,10 @@
+allowBuilds:
+  '@apollo/protobufjs': false
+  '@parcel/watcher': false
+  '@prisma/engines': false
+  '@scarf/scarf': false
+  bcrypt: false
+  esbuild: false
+  prisma: false
+  unrs-resolver: false
+  workerd: false
