@@ -14,6 +14,7 @@ async function bootstrap() {
     })
   )
   console.log('n29 dan serverga salom');
+  console.log('dangggg');
   await app.listen(PORT, () => console.log('Server listening on PORT', PORT));
 }
 bootstrap();
