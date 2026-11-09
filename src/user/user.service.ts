@@ -18,6 +18,8 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
+    console.log('ci cd ozgarishi');
+    
     const user = await this.db.findOne({
       where: { phone: createUserDto.phone },
     });
